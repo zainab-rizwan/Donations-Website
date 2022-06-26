@@ -1,5 +1,36 @@
 <?php
+session_start();
 require_once('db_connection.php');
+
+if (isset($_POST["donation-info"]))
+{
+   $title = $_POST['title'];   
+   $fname = $_POST['fname'];
+   $lname = $_POST['lname'];
+   $email = $_POST['email'];
+   $phone = $_POST['phone'];
+   $address = $_POST['address'];
+   $city = $_POST['city'];
+   $state = $_POST['state'];
+   $country = $_POST['country'];
+   $paytype = $_POST['paytype'];
+
+   $_SESSION['title'] = $title;
+   $_SESSION['fname'] = $fname;
+   $_SESSION['lname'] = $lname;
+   $_SESSION['email'] = $email;   
+   $_SESSION['phone'] = $phone;
+   $_SESSION['address'] = $address;
+   $_SESSION['city'] = $city;
+   $_SESSION['state'] = $state;
+   $_SESSION['country'] = $country;
+   $_SESSION['paytype'] = $paytype;
+
+   $currency = $_SESSION['currency'];
+   $affiliation = $_SESSION['affiliation'];
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -68,7 +99,7 @@ require_once('db_connection.php');
   <div id="main">
       <div class="rectangle">
         <br>
-        <h1 style="padding: 10px;" id="title"> Thank You User!</h1>
+        <h1 style="padding: 10px;" id="title"> Thank You <?php echo $fname, " ", $lname ?>!</h1>
         <br>
       </div>
 
@@ -76,6 +107,7 @@ require_once('db_connection.php');
               <h3>Here is your payment code:<b> 1102200005434</b></h3>
               <hr>
               <h4>You can donate via either:</h4>
+
               <ul>
                 <li><b>IBFT:</b></li>
                 <p>Through your ABL, Askari, BAFL, BAHL, FBL, Meezan or SCB internet banking portal, add bill payee UET and enter your payment code to pay</p>

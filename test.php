@@ -43,11 +43,8 @@ require_once('db_connection.php');
             amount2.focus();
         }
         amount3.disabled = particular3.checked ? false : true;
-        if (!amount3.disabled) {
+        if (!amount3.disabled){
             amount3.focus();
-        }
-        batches.disabled = particular3.checked ? false : true;
-        if (!batches.disabled) {
             batches.focus();
         }
         amount4.disabled = particular4.checked ? false : true;
@@ -173,18 +170,6 @@ require_once('db_connection.php');
         outline: none;
     }
 
-    #batches
-    {
-      outline: none;
-    }
-
-    #batches:focus
-    {
-      border: 1px solid #435d7d;
-      outline: none;
-      box-shadow: none;
-    }
-
 
 
       label
@@ -280,61 +265,56 @@ require_once('db_connection.php');
         <br>
       </div>
 
-
-      
-  <div>
-
-  <form  action="user-donate.php" method="POST">
-    <div class="form-group">
+      <div class="form-group">
          <h3>How would you like to pay?</h3>
-          <input id="PKR" value="PKR" type="radio" name="currency" onclick="openform()"><label for="PKR">PKR</label>
-          <input id="USD" value="USD" type="radio" name="currency" onclick="openform()"><label for="USD">USD</label>
+          <input id="pkr" type="radio" name="currency" onclick="openform()"><label for="pkr">PKR</label>
+          <input id="usd" type="radio" name="currency" onclick="openform()"><label for="usd">USD</label>
       </div>
+  <div>
+                                        
+  <form  action="user-donate.php" method="post">
     <div id="donation-form"  style="display: none;">
       <div class="form-group">
           <h3>How would you like to help?</h3>
           <p>I want to contribute to: (Select Option(s). As Required)</p>
           <br>       
           <div>
-             <div style="width: 80%;">
-                <label for="particular1" class="container">
-                  Give a day to U.E.T.
+             <div>
+                <label for="particular1" class="container">Give a day to U.E.T.
                   <input type="checkbox" name="particulars" id="particular1" onClick="enabledisableAmount(this)">
                   <span class="checkmark"></span>
                 </label>
                 <input type="number" placeholder="Amount" class="form-control" id="amount1" min="1" disabled="disabled" required>
 
-                <label for="particular2" class="container">
-                  Give a day to U.E.T. (Zakat)
+                <label for="particular2" class="container">Give a day to U.E.T. (Zakat)
                   <input type="checkbox" name="particulars" id="particular2" onClick="enabledisableAmount(this)">
                   <span class="checkmark"></span>
                 </label>
                 <input type="number" placeholder="Amount" class="form-control" id="amount2" disabled="disabled" required>
 
-                <label for="particular3" class="container">
-                  Batch Fund
+                <label for="particular3" class="container">Batch Fund
                   <input type="checkbox" name="particulars" id="particular3" onClick="enabledisableAmount(this)">
                   <span class="checkmark"></span>
                 </label>
                 <input type="number" placeholder="Amount" class="form-control" id="amount3" disabled="disabled" required >
-                <select required id="batches" disabled="disabled" class="form-control">
-
-                <?php
-                    $sql = "SELECT * FROM batch_fund";
-                    $result = mysqli_query($conn, $sql);
-                    if(mysqli_num_rows($result) > 0)
-                    {
-                        while ($row = mysqli_fetch_assoc($result)) 
+                   <select required id="batches" class="form-control">
+                    <option selected>-</option>
+                    <?php
+                        $sql = "SELECT * FROM batch_fund";
+                        $result = mysqli_query($conn, $sql);
+                        if(mysqli_num_rows($result) > 0)
                         {
-                          $batch_name=$row['batch_name'];
-                          $batch_id=$row['batch_id'];                            
-                            echo '<option>' 
-                                . $batch_name 
+                            while ($row = mysqli_fetch_assoc($result)) 
+                            {
+                              $batch_name=$row['batch_name'];
+                              $batch_id=$row['batch_id'];                            
+                                echo '<option>' 
+                                    . $batch_name 
 
-                                . ' </option>';
-                        }
+                                    . ' </option>';
+                            }
 
-                    }?>
+                        }?>
                   </select>
 
                 <label for="particular4" class="container">
@@ -351,16 +331,17 @@ require_once('db_connection.php');
       </div>
 
 
+
         <div class="form-group">
            <h3>What is your Affiliation with U.E.T.?</h3>
            <br>
             <div id="radios">
-              <label class="radio-inline" for="Alumni"><input value="Alumni" type="radio" id="affiliation" name="affiliation" class="radio" required>Alumni</label>
-              <label class="radio-inline" for="Faculty"><input value="Faculty" type="radio" id="affiliation" name="affiliation" class="radio">Faculty</label>
-              <label class="radio-inline" for="Student"><input value="Student" type="radio" id="affiliation" name="affiliation" class="radio">Student</label>
-              <label class="radio-inline" for="Staff"><input value="Staff" type="radio" id="affiliation" name="affiliation" class="radio">Staff</label>
-              <label class="radio-inline" for="Parent"><input value="Parent" type="radio" id="affiliation" name="affiliation" class="radio">Parent</label>
-              <label class="radio-inline" for="Other"><input value="Other" type="radio" id="affiliation" name="affiliation" class="radio">Other</label>
+              <label class="radio-inline" for="Alumni"><input value="Alumni" type="radio" name="Affiliation" class="radio" required>Alumni</label>
+              <label class="radio-inline" for="Faculty"><input value="Faculty" type="radio" name="Affiliation" class="radio">Faculty</label>
+              <label class="radio-inline" for="Student"><input value="Student" type="radio" name="Affiliation" class="radio">Student</label>
+              <label class="radio-inline" for="Staff"><input value="Staff" type="radio" name="Affiliation" class="radio">Staff</label>
+              <label class="radio-inline" for="Parent"><input value="Parent" type="radio" name="Affiliation" class="radio">Parent</label>
+              <label class="radio-inline" for="Other"><input value="Other" type="radio" name="Affiliation" class="radio">Other</label>
             </div>
           </div>
         <button id="submit" type="submit" class="btn" style="margin-top: -10px;">Submit</button>

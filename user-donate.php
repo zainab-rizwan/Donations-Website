@@ -1,5 +1,16 @@
 <?php
+session_start();
 require_once('db_connection.php');
+
+if (($_POST))
+{
+   $currency=$_POST['currency'];
+   $affiliation = $_POST['affiliation']; 
+
+   $_SESSION['currency'] = $currency;
+   $_SESSION['affiliation'] = $affiliation;
+
+}
 ?>
 
 <!DOCTYPE html>
@@ -16,6 +27,21 @@ require_once('db_connection.php');
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src='jquery-3.2.1.min.js'></script>
+  
+  <script type="text/javascript">
+    function openform() {
+          if (document.getElementById('info-form')) {
+
+              if (document.getElementById('info-form').style.display == 'none') {
+                  document.getElementById('info-form').style.display = 'block';
+              }
+
+          }
+    } 
+
+  </script>
+
+
   <style type="text/css">
     input::-webkit-outer-spin-button,
     input::-webkit-inner-spin-button {
@@ -67,6 +93,55 @@ require_once('db_connection.php');
           padding-bottom: 5%;
       }
 
+      #pay-types
+      {
+        display: flex;
+        justify-content: center;
+        padding-bottom: 3em;
+      }
+      input[name="paytype"] 
+      {
+            display: none;
+      }
+      
+      input[name="paytype"]+label 
+      {
+        background: #435d7d;
+        border-radius: 4px;
+        font-size: 15px;
+        text-align: center;
+        padding:0.75em;
+        color: white;
+        width: 25%;
+        height: 3em;
+        border:0px solid white ;
+        margin: 2% 2% 2% 2%;
+        word-wrap: break-word;
+        font-weight: normal;
+
+      }
+
+    input[name="paytype"]:checked+label {
+        color: #435d7d;
+        background:white;
+        border: 1px solid #435d7d;
+        outline: none;
+    }
+
+    input[name="paytype"]:hover+label {
+        color: #435d7d;
+        background:white;
+        border: 1px solid #435d7d;
+        outline: none;
+    }
+
+    input[name="paytype"]:focus+label {
+        color: #435d7d;
+        background:white;
+        border: 1px solid #435d7d;
+        outline: none;
+    }
+
       .btn
       {
         background: #435d7d;
@@ -75,6 +150,9 @@ require_once('db_connection.php');
         height: 3.5em;
         border:0px solid white;
         margin: 2% 2% 2% 2%;
+        white-space: normal;
+        word-wrap: break-word;
+
       }
 
       .btn:hover {
@@ -88,16 +166,10 @@ require_once('db_connection.php');
         color: #435d7d;
         background:white;
         border: 1px solid #435d7d;
-        outline: none;
+        outline: 0 !important;
+        box-shadow: none;
       }
 
-      .btn:active
-      {
-        color: #435d7d;
-        background:white;
-        border: 1px solid #435d7d;
-        outline: none;
-      }
 
 
       label
@@ -116,11 +188,10 @@ require_once('db_connection.php');
       {
         margin-top: -3%;
         height: 100%;
-        margin-bottom: 3%;
+        margin-bottom: 2%;
         align-items: center;
         justify-content: center;
-        outline-offset: -16px;
-        outline: 1px solid blue;
+        border:1px solid #435d7d;
 
       }
 
@@ -141,10 +212,6 @@ require_once('db_connection.php');
       {
         text-align: left;
       }
-
-
-
-
 </style>
   
 </head>
@@ -158,15 +225,15 @@ require_once('db_connection.php');
 
           <div class="form-group" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
               <div class="container-lg col-lg-10" id="gift-summary">
-               <h3>Your Gift Summary</h3>
+               <h3 style="margin: 0px -15px 0px -15px;">Your Gift Summary</h3>
                <br><br>
-                 <div class="form-row" style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
-                   <div class="form-group col-lg-4" style="margin-top: -8%;">
+                 <div class="form-row">
+                   <div class="form-group col-lg-5">
                       <h4>You choose to pay in</h4>
-                      <h2>PKR</h2>
+                      <h2><?php echo $currency; ?></h2>
                       <br>
-                      <h4>Your Affiliation with U.E.T.</h4>
-                      <h2>PKR</h2>
+                      <h4>Your Affiliation with U.E.T.</h4>                     
+                      <h2><?php echo $affiliation; ?></h2>
                    </div>
                    
                     <div class="form-group col-lg-6">
@@ -200,24 +267,25 @@ require_once('db_connection.php');
 
                         <h5>Total Amount:</h5>
                         <h5>In words:</h5>
-                        <input value="Edit Selection" type="button" class="btn" />
+                        <input value="Edit Selection" type="button" onclick="history.back()" class="btn"/>
                      </div>
                   </div>
             </div>
           </div>
-          <br>
-          <div class="form-group">
-             <h3>Choose Your Payment Type</h3>
-              <input value="Pay by Debit/Credit Card" type="button" name="currency" class="btn" id="show1"/>
-              <input value="Pay via Bank/ATM/IBFT"  type="button" name="currency" class="btn" id="show"/>
-              <input value="Donate via Cheque"  type="button" name="currency" class="btn" id="show"/>
-          </div>
-      </h3>
   <div>
 
 
   <form  action="donation-download.php" method="post">
-    <div id="donation-form" >
+     <div class="form-group">
+             <h3>Choose Your Payment Type</h3>
+              <div id="pay-types">
+               <input id="debit-credit" value="Pay by Debit/Credit Card" type="radio" name="paytype" onclick="openform()"><label for="debit-credit">Pay by Debit/Credit Card</label>
+              <input id="bank-atm-ibft" value="Pay via Bank/ATM/IBFT" type="radio" name="paytype" onclick="openform()"><label for="bank-atm-ibft">Pay via Bank/ATM/IBFT</label>
+               <input id="cheque" value="Donate via Cheque" type="radio" name="paytype" onclick="openform()"><label for="cheque">Donate via Cheque</label>
+             </div>
+    </div>
+
+    <div id="info-form" style="display: none;" >
       <div class="form-group">
           <h3>Please Enter Your Information</h3>
           <br>   
@@ -225,7 +293,7 @@ require_once('db_connection.php');
             <div class="form-row">
                 <div class="form-group col-md-2">
                   <label for="title">Title (*):</label>
-                   <select required id="title" class="form-control" style="height: 4em;" >
+                   <select required id="title" name="title" class="form-control" style="height: 4em;" >
                     <option selected>-</option>
                     <option>Mr.</option>
                     <option>Mrs.</option>
@@ -237,22 +305,22 @@ require_once('db_connection.php');
                 </div>
                 <div class="form-group col-md-5">
                   <label for="fname">First Name (*):</label>
-                  <input type="text" class="form-control" id="fname" required>
+                  <input type="text" name="fname" class="form-control" id="fname" required>
                 </div>
                 <div class="form-group col-md-5">
                   <label for="lname">Last Name (*):</label>
-                  <input type="text" class="form-control" id="lname" required>
+                  <input type="text" name="lname" class="form-control" id="lname" required>
                 </div>
               </div>
 
               <div class="form-row">
                  <div class="form-group col-md-6">
                     <label for="email">Email Address (*):</label>
-                    <input type="email" class="form-control" id="email" required>
+                    <input type="email" name="email" class="form-control" id="email" required>
                   </div>
                   <div class="form-group col-md-6">
                     <label for="phone">Phone (*):</label>
-                    <input type="phone" class="form-control" id="phone" required>
+                    <input type="phone" name="phone" class="form-control" id="phone" required>
                  </div>
               </div>
 
@@ -260,27 +328,27 @@ require_once('db_connection.php');
               <div class="form-row">
                 <div class="form-group col-md-12">
                   <label for="address">Address (*):</label>
-                  <textarea required class="form-control" id="address"></textarea>
+                  <textarea required class="form-control" name="address" id="address"></textarea>
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="form-group col-md-4">
                   <label for="country">Country (*):</label>
-                  <input type="text" class="form-control" id="country" required>
+                  <input type="text" class="form-control" name="country" id="country" required>
                 </div>
                 <div class="form-group col-md-4">
                   <label for="state">State (*):</label>
-                   <input type="text" class="form-control" id="state" required>
+                   <input type="text" class="form-control" name="state" id="state" required>
                 </div>
                 <div class="form-group col-md-4">
                   <label for="city">City (*):</label>
-                  <input type="text" class="form-control" id="city" required>
+                  <input type="text" class="form-control" name="city" id="city" required>
                 </div>
               </div>         
          </div>
          <br>
-        <button id="submit" type="submit" class="btn" style="margin-top: -10px;">Continue</button>
+        <button name="donation-info" type="submit" class="btn" style="margin-top: -10px;">Continue</button>
       </div>
     </div>
   </form>
