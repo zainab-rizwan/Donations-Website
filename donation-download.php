@@ -49,6 +49,7 @@ if (isset($_POST["donation-info"]))
   <script src='jquery-3.2.1.min.js'></script>
 
   <style type="text/css">
+
     body
       {
         text-align: center;
@@ -57,31 +58,58 @@ if (isset($_POST["donation-info"]))
       }
 
 
+  .section-top-bg {
+    width: 100%;
+    height: 550px;
+    background-image: url(images/top-bg.png);
+    background-size: cover;
+    background-position: 50.00% 90.00%;
+    overflow: hidden;
+}
+
+  .intro-div {
+      width: 95%;
+      height: auto;
+      background-color: white;
+      margin-top: 350px;
+      padding: 1% 9% 3% 9%;
+      margin-left: auto;
+      margin-right: auto;
+  }
+  .intro-div h1{
+      text-align: center;
+      color: #04198B;
+      padding-bottom: 0.75%;
+      font-size: 32px;
+  }
+   p{
+      text-align: center;
+      font-size: 95%;
+      word-wrap: break-word;
+  }
+  .content{
+      text-align: center;
+      padding: 0% 7% 0% 6%;
+  }
+
+  h2.head-pay{
+      text-align: center;
+      padding-top: 30px;
+  }
+
       #main
       {
-        margin: 8% 5% 8% 5%;
+        margin: -4% 5% 5% 5%;
         height: 100%;
         padding-bottom: 2em;
-        border: 1px solid #d0cdd1;
         border-radius: 2em;
-        border-top: none;
         display: block;
 
-      }
-   
-      .rectangle
-      {
-        border-radius: 2em 2em 0em 0em;
-        margin-bottom: 5%;
-        position: relative;
-        padding: 10px;
-        color: white;
-        background: #435d7d;
       }
 
       .form-group
       {
-        margin: 4% 8% 4% 8%;
+        margin: 4% 8% 0% 8%;
         padding: 1em;
         text-align: left;
       }
@@ -91,39 +119,61 @@ if (isset($_POST["donation-info"]))
         margin-bottom: 1%;
       }
 
+    footer
+    {
+      background-color:#435d7d;
+      color: white;
+      padding: 1em;
+    }
+
+
+
      
 </style>
   
 </head>
 <body>
-  <div id="main">
-      <div class="rectangle">
-        <br>
-        <h1 style="padding: 10px;" id="title"> Thank You <?php echo $fname, " ", $lname ?>!</h1>
-        <br>
+
+
+    <section class="section-top-bg" id="secMain">
+        <div class="container-fluid">
+            <div class="col-md-12">
+                <div class="intro-div">
+                    <br>
+                    <h1><strong>Thank You <?php echo $fname . " " . $lname ; ?>!</strong></h1>
+                    <p>Thank you for your generous donation to U.E.T. We truly appreciate your commitment.
+                    </p>
+                    <br>                
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+<div id="main">
+
+      <div class="form-group">
+          <h3>Here is your payment code:<b> 1102200005434</b></h3>
+          <hr>
+          <h4>You can donate via either:</h4>
+
+        <ul>
+            <li><b>IBFT:</b></li>
+            <p>Through your ABL, Askari, BAFL, BAHL, FBL, Meezan or SCB internet banking portal, add bill payee UET and enter your payment code to pay</p>
+
+            <li><b>ATM:</b></li>
+            </p>At any 1LINK ATM, select bill payment, select bill payee (Education - UET), and enter your payment code to pay.</p>
+
+            <li><b>Bank Deposit:</b></li>
+            </p>Donate to UET through cash, pay order or bank drafts made in favor of "University of Engineering and Technology" at any branch of ABL, Meezan or BAHL Banks in Pakistan.</p>
+        </ul>
+            <br>
+            <p>To download your donation challan, please <a href="">click here</a></p>
       </div>
-
-          <div class="form-group">
-              <h3>Here is your payment code:<b> 1102200005434</b></h3>
-              <hr>
-              <h4>You can donate via either:</h4>
-
-              <ul>
-                <li><b>IBFT:</b></li>
-                <p>Through your ABL, Askari, BAFL, BAHL, FBL, Meezan or SCB internet banking portal, add bill payee UET and enter your payment code to pay</p>
-
-                <li><b>ATM:</b></li>
-                </p>At any 1LINK ATM, select bill payment, select bill payee (Education - UET), and enter your payment code to pay.</p>
-
-                <li><b>Bank Deposit:</b></li>
-                </p>Donate to UET through cash, pay order or bank drafts made in favor of "University of Engineering and Technology" at any branch of ABL, Meezan or BAHL Banks in Pakistan.</p>
-              </ul>
-              <br>
-              <p>To download your donation challan, please <a href="">click here</a></p>
-          </div>
-      </h3>
   <div>
-
+</div>
+</div>
+<footer>Footer</footer>
 
 
 

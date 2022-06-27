@@ -13,9 +13,9 @@ require_once('db_connection.php');
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src='jquery-3.2.1.min.js'></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="jquery-3.6.0.min.js"></script>
 
   <script>
     function openform() {
@@ -33,7 +33,6 @@ require_once('db_connection.php');
         var amount2 = document.getElementById("amount2");
         var amount3 = document.getElementById("amount3");
         var batches = document.getElementById("batches");
-        var amount4 = document.getElementById("amount4");
         amount1.disabled = particular1.checked ? false : true;
         if (!amount1.disabled) {
             amount1.focus();
@@ -50,15 +49,36 @@ require_once('db_connection.php');
         if (!batches.disabled) {
             batches.focus();
         }
-        amount4.disabled = particular4.checked ? false : true;
-        if (!amount4.disabled) {
-            amount4.focus();
-        }
     }  
   </script>
+  <script >
+     $(document).ready(function(){
+      $('[data-toggle="popover"]').popover();   
+    });
 
+  </script>
+  <script>
+   
+    $(document).ready(function()
+    {
+      $("form").submit(function(){
+      if ($('input:checkbox').filter(':checked').length < 1){
+          alert("Select atleast one donation option to proceed.");
+      return false;
+      }
+      });
+    });
+  </script>
 
   <style type="text/css">
+    .alert
+    {
+      display: flex;
+      background: white;
+      color: #435d7d;
+      padding-left: 1em;
+    }
+
     input::-webkit-outer-spin-button,
     input::-webkit-inner-spin-button {
       -webkit-appearance: none;
@@ -74,32 +94,51 @@ require_once('db_connection.php');
         font-size: 15px;
       }
 
+    .section-top-bg {
+    width: 100%;
+    height: 550px;
+    background-image: url(images/top-bg.png);
+    background-size: cover;
+    background-position: 50.00% 90.00%;
+    overflow: hidden;
+}
 
-      #main
-      {
-        margin: 8% 5% 8% 5%;
-        height: 100%;
-        padding-bottom: 2em;
-        border: 1px solid #d0cdd1;
-        border-radius: 2em;
-        border-top: none;
-        display: block;
+  .intro-div {
+      width: 95%;
+      height: auto;
+      background-color: white;
+      margin-top: 350px;
+      padding: 1% 9% 3% 9%;
+      margin-left: auto;
+      margin-right: auto;
+  }
+  .intro-div h1{
+      text-align: center;
+      color: #04198B;
+      padding-bottom: 1%;
+  }
+   p{
+      text-align: center;
+      font-size: 95%;
+      word-wrap: break-word;
+  }
+  .content{
+      text-align: center;
+      padding: 0% 7% 0% 6%;
+  }
 
-      }
-   
-      .rectangle
+  h2.head-pay{
+      text-align: center;
+      padding-top: 30px;
+  }
+
+      form
       {
-        border-radius: 2em 2em 0em 0em;
         margin-bottom: 5%;
-        position: relative;
-        padding: 10px;
-        color: white;
-        background: #435d7d;
       }
-
       .form-group
       {
-        margin: 4% 8% 4% 8%;
+        margin: 0% 8% 0% 8%;
         padding: 1em;
       }
 
@@ -266,31 +305,55 @@ require_once('db_connection.php');
       -ms-transform: rotate(45deg);
       transform: rotate(45deg);
     }
-    #Div2 {
-    display: none;
-   }
+
+        footer
+    {
+      background-color:#435d7d;
+      color: white;
+      padding: 1em;
+    }
   </style>
+
 </head>
 
 <body>
-  <div id="main">
-      <div class="rectangle">
-        <br>
-        <h1 id="title" style="padding: 10px;">Donations</h1>
-        <br>
-      </div>
 
+    <section class="section-top-bg" id="secMain">
+        <div class="container-fluid">
+            <div class="col-md-12">
+                <div class="intro-div">
+                    <br>
+                    <h1><strong>DONATE ONLINE</strong></h1>
+                    <p>Your support has enabled us to change the lives of numerous talented and deserving students. Our
+                        team is here to help you route your gift. No matter where you are based, you can donate to U.E.T.
+                        today.
+                    </p>
+                    <br>                
+                </div>
+            </div>
+        </div>
+    </section>
 
-      
-  <div>
+        <section class="section-content" id="secLetStart">
+        <div class="container">
+                <div class="content">
+                    <br>         
+                    <h2>Let's Get Started</h2>
+                    <p>You can support U.E.T. in a variety of ways - from gifts towards our financial aid and NOP scholars or towards infrastructure and research. To make this gift, please use our secure online giving form. The process consists of <strong> a few easy steps and will only take a moment but the impact will last a lifetime.</strong></p> 
+                </div>
+        </div>
 
-  <form  action="user-donate.php" method="POST">
+    </section>
+  <br>
+  <form  action="user-donate.php" method="POST" >
+
     <div class="form-group">
          <h3>How would you like to pay?</h3>
           <input id="PKR" value="PKR" type="radio" name="currency" onclick="openform()"><label for="PKR">PKR</label>
           <input id="USD" value="USD" type="radio" name="currency" onclick="openform()"><label for="USD">USD</label>
-      </div>
-    <div id="donation-form"  style="display: none;">
+    </div>
+
+    <div id="donation-form"  style="display: none; margin-top: -1%;">
       <div class="form-group">
           <h3>How would you like to help?</h3>
           <p>I want to contribute to: (Select Option(s). As Required)</p>
@@ -298,27 +361,26 @@ require_once('db_connection.php');
           <div>
              <div style="width: 80%;">
                 <label for="particular1" class="container">
-                  Give a day to U.E.T.
-                  <input type="checkbox" name="particulars" id="particular1" onClick="enabledisableAmount(this)">
+                  Give a day to U.E.T.<img src="images/info.png" data-html="true" data-trigger="hover" data-placement="top" data-toggle="popover" data-content="Donate one day of your earnings towards Financial Aid scholars at U.E.T.">
+                  <input type="checkbox" name="particulars[]" value="1" id="particular1" onClick="enabledisableAmount(this)">
                   <span class="checkmark"></span>
                 </label>
-                <input type="number" placeholder="Amount" class="form-control" id="amount1" min="1" disabled="disabled" required>
+                <input type="number" placeholder="Amount" class="form-control" name="amount[]" id="amount1" min="1" disabled="disabled" required>
 
                 <label for="particular2" class="container">
-                  Give a day to U.E.T. (Zakat)
-                  <input type="checkbox" name="particulars" id="particular2" onClick="enabledisableAmount(this)">
+                  Give a day to U.E.T. (Zakat)<img src="images/info.png" data-html="true" data-trigger="hover" data-placement="top" data-toggle="popover" data-content="Donate one day of your annual earnings towards our Zakat fund.">
+                  <input type="checkbox" name="particulars[]" value="2" id="particular2" onClick="enabledisableAmount(this)">
                   <span class="checkmark"></span>
                 </label>
-                <input type="number" placeholder="Amount" class="form-control" id="amount2" disabled="disabled" required>
+                <input type="number" placeholder="Amount" class="form-control" name="amount[]" id="amount2" disabled="disabled" required>
 
                 <label for="particular3" class="container">
-                  Batch Fund
-                  <input type="checkbox" name="particulars" id="particular3" onClick="enabledisableAmount(this)">
+                  Batch Fund<img src="images/info.png" data-html="true" data-trigger="hover" data-placement="top" data-toggle="popover" data-content="Pool funds by different batches that can be used towards scholarships or university wide initiatives.">
+                  <input type="checkbox" name="particulars[]" value="3" id="particular3" onClick="enabledisableAmount(this)">
                   <span class="checkmark"></span>
                 </label>
-                <input type="number" placeholder="Amount" class="form-control" id="amount3" disabled="disabled" required >
+                <input type="number" placeholder="Amount" class="form-control" name="amount[]" id="amount3" disabled="disabled" required >
                 <select required id="batches" disabled="disabled" class="form-control">
-
                 <?php
                     $sql = "SELECT * FROM batch_fund";
                     $result = mysqli_query($conn, $sql);
@@ -330,26 +392,13 @@ require_once('db_connection.php');
                           $batch_id=$row['batch_id'];                            
                             echo '<option>' 
                                 . $batch_name 
-
                                 . ' </option>';
                         }
-
                     }?>
                   </select>
-
-                <label for="particular4" class="container">
-                  Interloop Endowment Fund
-                  <input type="checkbox" name="particulars" id="particular4" onClick="enabledisableAmount(this)">
-                  <span class="checkmark"></span>
-                </label>
-                <input type="number" placeholder="Amount" class="form-control" id="amount4" disabled="disabled" required >
-          
-          
-          
               </div>
           </div>      
       </div>
-
 
         <div class="form-group">
            <h3>What is your Affiliation with U.E.T.?</h3>
@@ -363,10 +412,10 @@ require_once('db_connection.php');
               <label class="radio-inline" for="Other"><input value="Other" type="radio" id="affiliation" name="affiliation" class="radio">Other</label>
             </div>
           </div>
-        <button id="submit" type="submit" class="btn" style="margin-top: -10px;">Submit</button>
+        <button id="submit" type="submit" class="btn">Submit</button>
       </div>
     </div>
   </form>
-
+<footer>Footer</footer>
 </body>
 </html>

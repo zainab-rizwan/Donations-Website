@@ -2,15 +2,26 @@
 session_start();
 require_once('db_connection.php');
 
+
 if (($_POST))
 {
    $currency=$_POST['currency'];
    $affiliation = $_POST['affiliation']; 
 
+   
+
+    if(!empty($_POST['amount'])) {
+
+        foreach($_POST['amount'] as $amount){
+        }
+
+    }
+
    $_SESSION['currency'] = $currency;
    $_SESSION['affiliation'] = $affiliation;
 
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -41,45 +52,31 @@ if (($_POST))
 
   </script>
 
-
   <style type="text/css">
-    input::-webkit-outer-spin-button,
-    input::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
-
-
-
+    input:-webkit-autofill,
+textarea:-webkit-autofill,
+select:-webkit-autofill
+{
+  -webkit-animation-name: autofill;
+  -webkit-animation-fill-mode: both;
+}
     body
       {
         text-align: center;
         font-family: 'Varela Round', sans-serif;
         font-size: 15px;
-
       }
-
 
       #main
       {
         margin: 8% 5% 8% 5%;
         height: 100%;
-        padding-bottom: 2em;
+        padding-bottom: 1%;
         border: 1px solid #d0cdd1;
         border-radius: 2em;
-        border-top: none;
         display: block;
+        padding-top: 8%;
 
-      }
-   
-      .rectangle
-      {
-        border-radius: 2em 2em 0em 0em;
-        margin-bottom: 5%;
-        position: relative;
-        padding: 10px;
-        color: white;
-        background: #435d7d;
       }
 
       .form-group
@@ -110,15 +107,14 @@ if (($_POST))
         border-radius: 4px;
         font-size: 15px;
         text-align: center;
-        padding:0.75em;
+        padding:1.5%;
         color: white;
         width: 25%;
-        height: 3em;
-        border:0px solid white ;
+        height: 3.5em;
+        border:0px solid white;
         margin: 2% 2% 2% 2%;
         word-wrap: break-word;
         font-weight: normal;
-
       }
 
     input[name="paytype"]:checked+label {
@@ -142,6 +138,17 @@ if (($_POST))
         outline: none;
     }
 
+
+    @media only screen and (max-width: 960px) {
+      input[name="paytype"]+label 
+      {
+
+        height: 5em;
+        padding: 2%;
+
+      }
+    }
+
       .btn
       {
         background: #435d7d;
@@ -150,7 +157,6 @@ if (($_POST))
         height: 3.5em;
         border:0px solid white;
         margin: 2% 2% 2% 2%;
-        white-space: normal;
         word-wrap: break-word;
 
       }
@@ -184,6 +190,25 @@ if (($_POST))
         height: 4em;
       }
 
+      input[type="text"], input[type="password"], input[type="email"], input[type="phone"]:focus
+      {
+        box-shadow: none !important;
+        outline: none !important;
+      }
+
+      textarea:focus
+      {
+         box-shadow: none !important;
+        outline: none !important;
+      }
+
+      #title:focus
+      {
+         box-shadow: none !important;
+        outline: none !important;
+      }
+
+
       #gift-summary
       {
         margin-top: -3%;
@@ -212,17 +237,24 @@ if (($_POST))
       {
         text-align: left;
       }
+
+    footer
+    {
+      background-color:#435d7d;
+      color: white;
+      padding: 1em;
+    }
 </style>
   
 </head>
 <body>
+
+
+
   <div id="main">
       <div class="rectangle">
-        <br>
-        <h1 id="title" style="padding: 10px;">Donations</h1>
-        <br>
-      </div>  
-
+  </div>  
+           <br>
           <div class="form-group" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
               <div class="container-lg col-lg-10" id="gift-summary">
                <h3 style="margin: 0px -15px 0px -15px;">Your Gift Summary</h3>
@@ -246,20 +278,26 @@ if (($_POST))
                         </thead>
                         <tbody>
                           <?php
-                          $sql = "SELECT batch_id, batch_name FROM batch_fund WHERE batch_id=1 ORDER BY batch_id";
-                          $result = mysqli_query($conn, $sql);
-                          if(mysqli_num_rows($result) > 0){
-
-                              while ($row = mysqli_fetch_assoc($result)) 
-                              {
-                                $batch_id=$row['batch_id'];
-                                $batch_name=$row['batch_name'];
-                                  echo '<tr>';
-                                  echo '<td>'. $batch_id .'</td>';
-                                  echo '<td>'. $batch_name .'</td>';?>
-                                <?php  echo '</tr>';
-                              }
-                            }?>                            
+                          if(!empty($_POST['particulars'])) 
+                          {
+                            foreach($_POST['particulars'] as $particular)
+                            {
+                               $sql = "SELECT particular_id, particular_name FROM particulars WHERE particular_id= $particular";
+                               $result = mysqli_query($conn, $sql);
+                               if(mysqli_num_rows($result) > 0){
+                                while ($row = mysqli_fetch_assoc($result)) 
+                                {
+                                  $particular_id=$row['particular_id'];
+                                  $particular_name=$row['particular_name'];
+                                    echo '<tr>';
+                                    echo '<td>'. $particular_name .'</td>';
+                                    echo '<td>'. $amount .'</td>';?>
+                                  <?php  echo '</tr>';
+                                }
+                            }
+                          }
+                            }?> 
+                                                  
                         </tbody>
                       </table>
 
@@ -352,7 +390,9 @@ if (($_POST))
       </div>
     </div>
   </form>
-
+</div>
+</div>
+<footer>Footer</footer>
 
 </body>
 
