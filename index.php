@@ -51,14 +51,12 @@ require_once('db_connection.php');
         }
     }  
   </script>
-  <script >
-     $(document).ready(function(){
+  <script>
+    $(document).ready(function(){
       $('[data-toggle="popover"]').popover();   
     });
 
-  </script>
-  <script>
-   
+
     $(document).ready(function()
     {
       $("form").submit(function(){
@@ -68,6 +66,7 @@ require_once('db_connection.php');
       }
       });
     });
+
   </script>
 
   <style type="text/css">
@@ -372,15 +371,16 @@ require_once('db_connection.php');
                   <input type="checkbox" name="particulars[]" value="2" id="particular2" onClick="enabledisableAmount(this)">
                   <span class="checkmark"></span>
                 </label>
-                <input type="number" placeholder="Amount" class="form-control" name="amount[]" id="amount2" disabled="disabled" required>
+                <input type="number" placeholder="Amount" class="form-control" name="amount[]" id="amount2" min="1" disabled="disabled" required>
 
                 <label for="particular3" class="container">
                   Batch Fund<img src="images/info.png" data-html="true" data-trigger="hover" data-placement="top" data-toggle="popover" data-content="Pool funds by different batches that can be used towards scholarships or university wide initiatives.">
                   <input type="checkbox" name="particulars[]" value="3" id="particular3" onClick="enabledisableAmount(this)">
                   <span class="checkmark"></span>
                 </label>
-                <input type="number" placeholder="Amount" class="form-control" name="amount[]" id="amount3" disabled="disabled" required >
-                <select required id="batches" disabled="disabled" class="form-control">
+                <input type="number" placeholder="Amount" class="form-control" name="amount[]" id="amount3" min="1" disabled="disabled" required >
+                <select required id="batches" disabled="disabled" class="form-control" name="batchid">
+
                 <?php
                     $sql = "SELECT * FROM batch_fund";
                     $result = mysqli_query($conn, $sql);
@@ -389,10 +389,11 @@ require_once('db_connection.php');
                         while ($row = mysqli_fetch_assoc($result)) 
                         {
                           $batch_name=$row['batch_name'];
-                          $batch_id=$row['batch_id'];                            
-                            echo '<option>' 
-                                . $batch_name 
-                                . ' </option>';
+                          $batch_id=$row['batch_id']; ?>
+                          <?php                       
+                            echo '<option name="batchid" value="'. $batch_id. '">' 
+                                 . $batch_name 
+                                 . ' </option>';
                         }
                     }?>
                   </select>

@@ -4,32 +4,68 @@ require_once('db_connection.php');
 
 if (isset($_POST["donation-info"]))
 {
-   $title = $_POST['title'];   
-   $fname = $_POST['fname'];
-   $lname = $_POST['lname'];
-   $email = $_POST['email'];
-   $phone = $_POST['phone'];
-   $address = $_POST['address'];
-   $city = $_POST['city'];
-   $state = $_POST['state'];
-   $country = $_POST['country'];
-   $paytype = $_POST['paytype'];
+  $title = $_POST['title'];   
+  $fname = $_POST['fname'];
+  $lname = $_POST['lname'];
+  $email = $_POST['email'];
+  $phone = $_POST['phone'];
+  $address = $_POST['address'];
+  $city = $_POST['city'];
+  $state = $_POST['state'];
+  $country = $_POST['country'];
+  $paytype = $_POST['paytype'];
 
-   $_SESSION['title'] = $title;
-   $_SESSION['fname'] = $fname;
-   $_SESSION['lname'] = $lname;
-   $_SESSION['email'] = $email;   
-   $_SESSION['phone'] = $phone;
-   $_SESSION['address'] = $address;
-   $_SESSION['city'] = $city;
-   $_SESSION['state'] = $state;
-   $_SESSION['country'] = $country;
-   $_SESSION['paytype'] = $paytype;
+  $_SESSION['title'] = $title;
+  $_SESSION['fname'] = $fname;
+  $_SESSION['lname'] = $lname;
+  $_SESSION['email'] = $email;   
+  $_SESSION['phone'] = $phone;
+  $_SESSION['address'] = $address;
+  $_SESSION['city'] = $city;
+  $_SESSION['state'] = $state;
+  $_SESSION['country'] = $country;
+  $_SESSION['paytype'] = $paytype;
 
-   $currency = $_SESSION['currency'];
-   $affiliation = $_SESSION['affiliation'];
+  $currency = $_SESSION['currency'];
+  $affiliation = $_SESSION['affiliation'];
+  $total= $_SESSION['total'];
+  $batchid= $_SESSION['batchid'];
+  $date = date('Y-m-d');
+  $amounts= $_SESSION['amounts'];
+
+
+  ###Users
+  $user_id = 0;
+  $sql1 = "INSERT INTO `users` (`user_id`, `title`,`fname`,`lname`,`affiliation`,`email`,`phone`,`address`,`city`,`state`,`country`) VALUES ( ' $user_id', '$title','$fname', '$lname','$affiliation', '$email','$phone', '$address','$city', '$state', '$country')";
+   if ($conn->query($sql1) === TRUE) {
+    $user_id = $conn->insert_id;  
+  } else {
+      echo $conn->error;
+  } 
+
+  ###invoice
+  $inv_id = 0;
+  $sql2 = "INSERT INTO `invoice` (`id`, `user_id`,`currency`,`payment_method`,`status`,`dateofinvoice`) VALUES ( '$inv_id', '$user_id','$currency','$paytype', 'UNPAID','$date')";
+   if ($conn->query($sql2) === TRUE) {
+    $inv_id = $conn->insert_id;   
+  } else {
+      echo $conn->error;
+  }
+
+  ###invoice_particulars
+  $par_inv_id = 0;
+  foreach($amounts as $key => $value)
+  {
+     $particularid=$key;
+     $amount=$value;
+      $sql3 = "INSERT INTO `invoice_particulars` (`invoice_particulars_id`, `invoice_id`,`particular_id`,`amount`,`batch_id`) VALUES ( 'par_$inv_id', '$inv_id','$particularid','$amount', $batchid)";
+     if ($conn->query($sql3) === TRUE) {
+      $par_inv_id = $conn->insert_id;   
+    } else {
+        echo $conn->error;
+    }
+  }
 }
-
 
 ?>
 
@@ -153,7 +189,7 @@ if (isset($_POST["donation-info"]))
 <div id="main">
 
       <div class="form-group">
-          <h3>Here is your payment code:<b> 1102200005434</b></h3>
+          <h3>Here is your payment code:<b><?php echo $inv_id ?></b></h3>
           <hr>
           <h4>You can donate via either:</h4>
 

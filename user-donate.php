@@ -2,23 +2,16 @@
 session_start();
 require_once('db_connection.php');
 
-
 if (($_POST))
 {
    $currency=$_POST['currency'];
    $affiliation = $_POST['affiliation']; 
-
-   
-
-    if(!empty($_POST['amount'])) {
-
-        foreach($_POST['amount'] as $amount){
-        }
-
-    }
+   $particulars=$_POST['particulars'];
+   $amount = $_POST['amount']; 
 
    $_SESSION['currency'] = $currency;
    $_SESSION['affiliation'] = $affiliation;
+   
 
 }
 
@@ -40,6 +33,7 @@ if (($_POST))
   <script src='jquery-3.2.1.min.js'></script>
   
   <script type="text/javascript">
+
     function openform() {
           if (document.getElementById('info-form')) {
 
@@ -54,12 +48,12 @@ if (($_POST))
 
   <style type="text/css">
     input:-webkit-autofill,
-textarea:-webkit-autofill,
-select:-webkit-autofill
-{
-  -webkit-animation-name: autofill;
-  -webkit-animation-fill-mode: both;
-}
+    textarea:-webkit-autofill,
+    select:-webkit-autofill
+    {
+      -webkit-animation-name: autofill;
+      -webkit-animation-fill-mode: both;
+    }
     body
       {
         text-align: center;
@@ -107,9 +101,9 @@ select:-webkit-autofill
         border-radius: 4px;
         font-size: 15px;
         text-align: center;
-        padding:1.5%;
+        padding:1.25%;
         color: white;
-        width: 25%;
+        width: 25.2%;
         height: 3.5em;
         border:0px solid white;
         margin: 2% 2% 2% 2%;
@@ -244,13 +238,10 @@ select:-webkit-autofill
       color: white;
       padding: 1em;
     }
-</style>
+  </style>
   
 </head>
-<body>
-
-
-
+<body">
   <div id="main">
       <div class="rectangle">
   </div>  
@@ -274,37 +265,54 @@ select:-webkit-autofill
                           <tr>
                             <th scope="col">Category</th>
                             <th scope="col">Amount</th>
+                            
                           </tr>
                         </thead>
                         <tbody>
                           <?php
-                          if(!empty($_POST['particulars'])) 
-                          {
-                            foreach($_POST['particulars'] as $particular)
-                            {
-                               $sql = "SELECT particular_id, particular_name FROM particulars WHERE particular_id= $particular";
-                               $result = mysqli_query($conn, $sql);
-                               if(mysqli_num_rows($result) > 0){
-                                while ($row = mysqli_fetch_assoc($result)) 
+                          $total=0;
+                          $index=array();
+                          $res_amount=array();
+                          $batches=array();
+                          foreach( $particulars as $key => $particular ) {
+                                $sql = "SELECT particular_id, particular_name FROM particulars WHERE particular_id= $particular";
+                                if ($particular==3)
+                                {
+                                  
+                                  $batchid=$_POST['batchid'];
+                                  $_SESSION['batchid'] = $batchid;
+                                }
+                                else
+                                {
+                                  $batchid=NULL;
+                                  $_SESSION['batchid'] = $batchid;
+                                }
+                               
+                                 $result = mysqli_query($conn, $sql);
+                                if(mysqli_num_rows($result) > 0){
+                                  while ($row = mysqli_fetch_assoc($result)) 
                                 {
                                   $particular_id=$row['particular_id'];
                                   $particular_name=$row['particular_name'];
+                                  $total+=$amount[$key];
+                                  array_push($index, $particular_id);
+                                  array_push($res_amount, $amount[$key]);
                                     echo '<tr>';
                                     echo '<td>'. $particular_name .'</td>';
-                                    echo '<td>'. $amount .'</td>';?>
-                                  <?php  echo '</tr>';
-                                }
-                            }
-                          }
-                            }?> 
-                                                  
+                                    echo '<td>'. $amount[$key] .'</td>';?>
+                                  <?php  echo '</tr>'; }
+                                }  
+                              }
+                              $_SESSION['total'] = $total;
+                              $amounts = array_combine($index, $res_amount);
+                              $_SESSION['amounts'] = $amounts;
+                                  
+                              ?>                                                 
                         </tbody>
                       </table>
 
-
-
-                        <h5>Total Amount:</h5>
-                        <h5>In words:</h5>
+                        <h5>Total Amount: <?php echo $total . " ". $currency ?></h5>
+                        <h5>In Words:</h5>
                         <input value="Edit Selection" type="button" onclick="history.back()" class="btn"/>
                      </div>
                   </div>
