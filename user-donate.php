@@ -60,18 +60,43 @@ if (($_POST))
         font-family: 'Varela Round', sans-serif;
         font-size: 15px;
       }
+      .section-top-bg {
+    width: 100%;
+    height: 350px;
+    background-image: url(images/top-bg.png);
+    background-size: cover;
+    background-position: 50.00% 60.00%;
+    overflow: hidden;
+}
 
-      #main
-      {
-        margin: 8% 5% 8% 5%;
-        height: 100%;
-        padding-bottom: 1%;
-        border: 1px solid #d0cdd1;
-        border-radius: 2em;
-        display: block;
-        padding-top: 8%;
+  .intro-div {
+      width: 95%;
+      height: auto;
+      background-color: white;
+      margin-top: 150px;
+      padding: 1% 9% 2% 9%;
+      margin-left: auto;
+      margin-right: auto;
+  }
+  .intro-div h1{
+      text-align: center;
+      color: #04198B;
+      padding-bottom: 1%;
+  }
+   p{
+      text-align: center;
+      font-size: 95%;
+      word-wrap: break-word;
+  }
+  .content{
+      text-align: center;
+      padding: 0% 7% 0% 6%;
+  }
 
-      }
+  h2.head-pay{
+      text-align: center;
+      padding-top: 30px;
+  }
 
       .form-group
       {
@@ -242,11 +267,25 @@ if (($_POST))
   
 </head>
 <body">
-  <div id="main">
-      <div class="rectangle">
-  </div>  
-           <br>
-          <div class="form-group" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+  <section class="section-top-bg" id="secMain">
+        <div class="container-fluid">
+            <div class="col-md-12">
+                <div class="intro-div">
+                    <br>
+                    <h1><strong>DONATE ONLINE</strong></h1>
+                    <p>Your support has enabled us to change the lives of numerous talented and deserving students. Our
+                        team is here to help you route your gift. No matter where you are based, you can donate to U.E.T.
+                        today.
+                    </p>
+                    <br>                
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+ 
+          <div class="form-group" style="display: flex; flex-direction: column; justify-content: center; align-items: center; padding-top: 5em;">
               <div class="container-lg col-lg-10" id="gift-summary">
                <h3 style="margin: 0px -15px 0px -15px;">Your Gift Summary</h3>
                <br><br>
@@ -280,14 +319,12 @@ if (($_POST))
                                 {
                                   
                                   $batchid=$_POST['batchid'];
-                                  $_SESSION['batchid'] = $batchid;
                                 }
                                 else
                                 {
-                                  $batchid=NULL;
-                                  $_SESSION['batchid'] = $batchid;
+                                  $batchid=0;
                                 }
-                               
+                                 array_push($batches, $batchid);
                                  $result = mysqli_query($conn, $sql);
                                 if(mysqli_num_rows($result) > 0){
                                   while ($row = mysqli_fetch_assoc($result)) 
@@ -304,15 +341,17 @@ if (($_POST))
                                 }  
                               }
                               $_SESSION['total'] = $total;
-                              $amounts = array_combine($index, $res_amount);
-                              $_SESSION['amounts'] = $amounts;
-                                  
+                              $pid_amount=array_combine($index,$res_amount);
+                              $pid_bid= array_combine($index,$batches);
+                              $_SESSION['pid_amount'] = $pid_amount; 
+                              $_SESSION['pid_bid'] = $pid_bid;                      
                               ?>                                                 
                         </tbody>
                       </table>
 
                         <h5>Total Amount: <?php echo $total . " ". $currency ?></h5>
                         <h5>In Words:</h5>
+
                         <input value="Edit Selection" type="button" onclick="history.back()" class="btn"/>
                      </div>
                   </div>

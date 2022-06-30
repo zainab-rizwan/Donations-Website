@@ -95,10 +95,10 @@ require_once('db_connection.php');
 
     .section-top-bg {
     width: 100%;
-    height: 550px;
+    height: 350px;
     background-image: url(images/top-bg.png);
     background-size: cover;
-    background-position: 50.00% 90.00%;
+    background-position: 50.00% 60.00%;
     overflow: hidden;
 }
 
@@ -106,8 +106,8 @@ require_once('db_connection.php');
       width: 95%;
       height: auto;
       background-color: white;
-      margin-top: 350px;
-      padding: 1% 9% 3% 9%;
+      margin-top: 150px;
+      padding: 1% 9% 2% 9%;
       margin-left: auto;
       margin-right: auto;
   }
@@ -171,6 +171,7 @@ require_once('db_connection.php');
         box-shadow: none;
       }
 
+
       input[name="currency"] 
       {
             display: none;
@@ -224,6 +225,13 @@ require_once('db_connection.php');
     }
 
 
+    #info
+    {
+      margin:5px;
+      margin-top: 2.5px;
+    }
+
+
 
       label
       {
@@ -234,10 +242,9 @@ require_once('db_connection.php');
 
       input[type=number]
       {
-        width: 70%;
+        width: 100%;
+        margin: 2% 0% 2% 0%;
         height: 2.5em;
-        margin-top: -1%;
-        display: inline-block;
         -moz-appearance: textfield;
         box-shadow: none;
       }
@@ -261,7 +268,20 @@ require_once('db_connection.php');
         font-weight: normal;
       }
 
-      .container input {
+      .container-fluid
+       {
+        position: relative;
+        padding-left: 35px;
+        width: 100%;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        font-weight: normal;
+      }
+
+      .container-fluid input {
         opacity: 0;
         cursor: pointer;
         height: 0;
@@ -279,7 +299,7 @@ require_once('db_connection.php');
       }
 
 
-    .container input:checked ~ .checkmark {
+    .container-fluid input:checked ~ .checkmark {
       background-color: #2196F3;
     }
 
@@ -289,11 +309,11 @@ require_once('db_connection.php');
       display: none;
     }
 
-    .container input:checked ~ .checkmark:after {
+    .container-fluid input:checked ~ .checkmark:after {
       display: block;
     }
 
-    .container .checkmark:after {
+    .container-fluid .checkmark:after {
       left: 9px;
       top: 5px;
       width: 5px;
@@ -353,36 +373,35 @@ require_once('db_connection.php');
     </div>
 
     <div id="donation-form"  style="display: none; margin-top: -1%;">
-      <div class="form-group">
+      <div class="form-group" class="">
           <h3>How would you like to help?</h3>
           <p>I want to contribute to: (Select Option(s). As Required)</p>
           <br>       
           <div>
-             <div style="width: 80%;">
-                <label for="particular1" class="container">
-                  Give a day to U.E.T.<img src="images/info.png" data-html="true" data-trigger="hover" data-placement="top" data-toggle="popover" data-content="Donate one day of your earnings towards Financial Aid scholars at U.E.T.">
+             <div style="display: inline-block; width:60%; " >
+                <label for="particular1" class="container-fluid">
+                  Give a day to U.E.T.<img src="images/info.png" id="info" data-html="true" data-trigger="hover" data-placement="top" data-toggle="popover" data-content="Donate one day of your earnings towards Financial Aid scholars at U.E.T.">
                   <input type="checkbox" name="particulars[]" value="1" id="particular1" onClick="enabledisableAmount(this)">
                   <span class="checkmark"></span>
                 </label>
                 <input type="number" placeholder="Amount" class="form-control" name="amount[]" id="amount1" min="1" disabled="disabled" required>
 
-                <label for="particular2" class="container">
-                  Give a day to U.E.T. (Zakat)<img src="images/info.png" data-html="true" data-trigger="hover" data-placement="top" data-toggle="popover" data-content="Donate one day of your annual earnings towards our Zakat fund.">
+                <label for="particular2" class="container-fluid">
+                  Give a day to U.E.T. (Zakat)<img src="images/info.png" id="info" data-html="true" data-trigger="hover" data-placement="top" data-toggle="popover" data-content="Donate one day of your annual earnings towards our Zakat fund.">
                   <input type="checkbox" name="particulars[]" value="2" id="particular2" onClick="enabledisableAmount(this)">
                   <span class="checkmark"></span>
                 </label>
                 <input type="number" placeholder="Amount" class="form-control" name="amount[]" id="amount2" min="1" disabled="disabled" required>
 
-                <label for="particular3" class="container">
-                  Batch Fund<img src="images/info.png" data-html="true" data-trigger="hover" data-placement="top" data-toggle="popover" data-content="Pool funds by different batches that can be used towards scholarships or university wide initiatives.">
+                <label for="particular3" class="container-fluid">
+                  Batch Fund<img src="images/info.png" id="info" data-html="true" data-trigger="hover" data-placement="top" data-toggle="popover" data-content="Pool funds by different batches that can be used towards scholarships or university wide initiatives.">
                   <input type="checkbox" name="particulars[]" value="3" id="particular3" onClick="enabledisableAmount(this)">
                   <span class="checkmark"></span>
                 </label>
-                <input type="number" placeholder="Amount" class="form-control" name="amount[]" id="amount3" min="1" disabled="disabled" required >
-                <select required id="batches" disabled="disabled" class="form-control" name="batchid">
+                <select required id="batches" disabled="disabled" class="form-control" name="batchid" style="width: 100%;">
 
                 <?php
-                    $sql = "SELECT * FROM batch_fund";
+                    $sql = "SELECT * FROM batch_fund where batch_id>0";
                     $result = mysqli_query($conn, $sql);
                     if(mysqli_num_rows($result) > 0)
                     {
@@ -391,12 +410,14 @@ require_once('db_connection.php');
                           $batch_name=$row['batch_name'];
                           $batch_id=$row['batch_id']; ?>
                           <?php                       
-                            echo '<option name="batchid" value="'. $batch_id. '">' 
+                            echo '<option  name="batchid" value="'. $batch_id. '">' 
                                  . $batch_name 
                                  . ' </option>';
                         }
                     }?>
                   </select>
+                <input type="number" placeholder="Amount" class="form-control" name="amount[]" id="amount3" min="1" disabled="disabled" required >
+                
               </div>
           </div>      
       </div>

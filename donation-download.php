@@ -2,6 +2,7 @@
 session_start();
 require_once('db_connection.php');
 
+
 if (isset($_POST["donation-info"]))
 {
   $title = $_POST['title'];   
@@ -29,10 +30,9 @@ if (isset($_POST["donation-info"]))
   $currency = $_SESSION['currency'];
   $affiliation = $_SESSION['affiliation'];
   $total= $_SESSION['total'];
-  $batchid= $_SESSION['batchid'];
   $date = date('Y-m-d');
-  $amounts= $_SESSION['amounts'];
-
+  $pid_amount= $_SESSION['pid_amount'];
+  $pid_bid= $_SESSION['pid_bid'];
 
   ###Users
   $user_id = 0;
@@ -54,19 +54,18 @@ if (isset($_POST["donation-info"]))
 
   ###invoice_particulars
   $par_inv_id = 0;
-  foreach($amounts as $key => $value)
-  {
-     $particularid=$key;
-     $amount=$value;
-      $sql3 = "INSERT INTO `invoice_particulars` (`invoice_particulars_id`, `invoice_id`,`particular_id`,`amount`,`batch_id`) VALUES ( 'par_$inv_id', '$inv_id','$particularid','$amount', $batchid)";
+  foreach ($pid_amount as $key => $value) {
+    $particular_id=$key;
+    $amount=$value;
+    $batchid= $pid_bid[$particular_id];
+    $sql3 = "INSERT INTO `invoice_particulars` (`invoice_particulars_id`, `invoice_id`,`particular_id`,`amount`,`batch_id`) VALUES ( 'par_$inv_id', '$inv_id','$particular_id','$amount', $batchid)";
      if ($conn->query($sql3) === TRUE) {
       $par_inv_id = $conn->insert_id;   
     } else {
         echo $conn->error;
     }
-  }
+  } 
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -96,56 +95,38 @@ if (isset($_POST["donation-info"]))
 
   .section-top-bg {
     width: 100%;
-    height: 550px;
+    height: 350px;
     background-image: url(images/top-bg.png);
     background-size: cover;
-    background-position: 50.00% 90.00%;
+    background-position: 50.00% 60.00%;
     overflow: hidden;
 }
 
   .intro-div {
-      width: 95%;
+      width: 95% !important;
       height: auto;
       background-color: white;
-      margin-top: 350px;
-      padding: 1% 9% 3% 9%;
+      margin-top: 170px;
+      padding: 1% 9% 2% 9%;
       margin-left: auto;
       margin-right: auto;
+      word-wrap: break-word;
+      text-overflow: ellipsis;
+      
   }
   .intro-div h1{
       text-align: center;
       color: #04198B;
-      padding-bottom: 0.75%;
-      font-size: 32px;
+      padding-bottom: 1%;
   }
    p{
-      text-align: center;
-      font-size: 95%;
-      word-wrap: break-word;
-  }
-  .content{
-      text-align: center;
-      padding: 0% 7% 0% 6%;
-  }
+      font-size: 18px;
 
-  h2.head-pay{
-      text-align: center;
-      padding-top: 30px;
   }
-
-      #main
-      {
-        margin: -4% 5% 5% 5%;
-        height: 100%;
-        padding-bottom: 2em;
-        border-radius: 2em;
-        display: block;
-
-      }
 
       .form-group
       {
-        margin: 4% 8% 0% 8%;
+        margin: 1% 8% 0% 8%;
         padding: 1em;
         text-align: left;
       }
@@ -198,10 +179,10 @@ if (isset($_POST["donation-info"]))
             <p>Through your ABL, Askari, BAFL, BAHL, FBL, Meezan or SCB internet banking portal, add bill payee UET and enter your payment code to pay</p>
 
             <li><b>ATM:</b></li>
-            </p>At any 1LINK ATM, select bill payment, select bill payee (Education - UET), and enter your payment code to pay.</p>
+            <p>At any 1LINK ATM, select bill payment, select bill payee (Education - UET), and enter your payment code to pay.</p>
 
             <li><b>Bank Deposit:</b></li>
-            </p>Donate to UET through cash, pay order or bank drafts made in favor of "University of Engineering and Technology" at any branch of ABL, Meezan or BAHL Banks in Pakistan.</p>
+            <p>Donate to UET through cash, pay order or bank drafts made in favor of "University of Engineering and Technology" at any branch of ABL, Meezan or BAHL Banks in Pakistan.</p>
         </ul>
             <br>
             <p>To download your donation challan, please <a href="">click here</a></p>
