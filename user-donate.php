@@ -1,6 +1,9 @@
 <?php
 session_start();
 require_once('db_connection.php');
+$f = new \NumberFormatter("en", \NumberFormatter::SPELLOUT);    
+
+
 
 if (($_POST))
 {
@@ -350,7 +353,7 @@ if (($_POST))
                       </table>
 
                         <h5>Total Amount: <?php echo $total . " ". $currency ?></h5>
-                        <h5>In Words:</h5>
+                        <h5>In Words: <?php echo $f->format($total); ?></h5>
 
                         <input value="Edit Selection" type="button" onclick="history.back()" class="btn"/>
                      </div>
@@ -379,7 +382,7 @@ if (($_POST))
                 <div class="form-group col-md-2">
                   <label for="title">Title (*):</label>
                    <select required id="title" name="title" class="form-control" style="height: 4em;" >
-                    <option selected>-</option>
+                    <option disabled selected value></option>
                     <option>Mr.</option>
                     <option>Mrs.</option>
                     <option>Ms.</option>

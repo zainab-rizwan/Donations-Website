@@ -45,9 +45,11 @@ if (isset($_POST["donation-info"]))
 
   ###invoice
   $inv_id = 0;
+
   $sql2 = "INSERT INTO `invoice` (`id`, `user_id`,`currency`,`payment_method`,`status`,`dateofinvoice`) VALUES ( '$inv_id', '$user_id','$currency','$paytype', 'UNPAID','$date')";
    if ($conn->query($sql2) === TRUE) {
-    $inv_id = $conn->insert_id;   
+    $inv_id = $conn->insert_id; 
+    $_SESSION['inv_id'] = $inv_id;  
   } else {
       echo $conn->error;
   }
@@ -75,7 +77,7 @@ if (isset($_POST["donation-info"]))
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
+  <link rel="styleshaeet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -185,7 +187,7 @@ if (isset($_POST["donation-info"]))
             <p>Donate to UET through cash, pay order or bank drafts made in favor of "University of Engineering and Technology" at any branch of ABL, Meezan or BAHL Banks in Pakistan.</p>
         </ul>
             <br>
-            <p>To download your donation challan, please <a href="">click here</a></p>
+            <p>To download your donation challan, please <a href="invoice.php" id="generatePDF">click here</a></p>
       </div>
   <div>
 </div>
