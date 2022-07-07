@@ -2,7 +2,7 @@
 session_start();
 include 'db_connection.php';
 
-
+//Create new batch fund
 if (isset($_POST['create'])) {
 	$title = $_POST['title'];
 	$result = mysqli_query($conn, "SELECT MAX(batch_id) as 'max' FROM batch_fund");
@@ -27,7 +27,7 @@ if (isset($_POST['create'])) {
 	} 
 }
 
-
+//Edit batch fund
 if(isset($_POST['update']))
 {
 	$name=$_POST['name'];
@@ -48,7 +48,7 @@ if(isset($_POST['update']))
 	} 
 }
 
-
+//Delete batch fund
 if (isset($_GET['del'])) {
 
 $id = $_GET['del'];
@@ -58,7 +58,6 @@ if ($conn->query($sql) === TRUE) {
 	    $_SESSION['msg_type'] = "Success!"; 
 	    header('location: batch_fund.php');
 	    exit();
-
 } 
 else {
 	    $_SESSION['message'] = $sql1 . "<br>" . $conn->error;
@@ -66,10 +65,5 @@ else {
 	    header('location: batch_fund.php');
 	    exit();
 	} 
-
 } 
-
-
-	
-
 ?>

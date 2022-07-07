@@ -1,6 +1,6 @@
 <?php
 require('db_connection.php');
-include("auth.php");
+include('auth.php');
 if (isset($_REQUEST['username'])){
     $username = stripslashes($_REQUEST['username']);
     $username = mysqli_real_escape_string($conn,$username); 
@@ -16,10 +16,8 @@ if (isset($_REQUEST['username'])){
             $_SESSION['message'] = "You are registered successfully."; 
             $_SESSION['msg_type'] = "success";
             header('location: dashboard.php');
-    }
-  
+    }  
 }
-
     else{
 
 ?>
@@ -38,92 +36,96 @@ if (isset($_REQUEST['username'])){
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <title>Sign Up</title>
 <style type="text/css">
-   html {
-       height: 100%;
-       width: 100%;
-   }
+html {
+     height: 100%;
+     width: 100%;
+ }
 
-   body {
-       background: url("images/top-bg.jpg") no-repeat center center fixed;
-       background-size: cover;
+ body {
+     background: url("images/top-bg-2.jpg") no-repeat center center fixed;
+     background-size: cover;
 
-   }
-   .alert
-    {
-        padding: 20px;
-        background-color: #f44336; /* Red */
-        color: white;
-        margin-bottom: 15px;
-    }
+ }
+ /***********Alerts***********/
+ .alert
+  {
+      padding: 20px;
+      background-color: #f44336; /* Red */
+      color: white;
+      margin-bottom: 15px;
+  }
 
-   #container {
-       background-color: black;
-       padding: 3em;
-       opacity: 0.7;
-       width: 0 auto;
-       width: 70%;
-       margin: 7rem;
-   }
+/***********Registration form***********/
+ #container {
+     background-color: black;
+     padding: 3em;
+     opacity: 0.75;
+     width: 0 auto;
+     width: 70%;
+     margin: 7rem;
+ }
 
-   h3 {
-       text-align: center;
-       vertical-align: middle;
-       line-height: 3rem;
-       height: 3rem;
-       color: white;
-   }
+ h3 {
+     text-align: center;
+     vertical-align: middle;
+     line-height: 3rem;
+     height: 3rem;
+     color: white;
+ }
 
-   fieldset {
-       border: 0;
-       text-align: center;
-   }
+ fieldset {
+     border: 0;
+     text-align: center;
+ }
 
-   input[type="submit"] {
-       border: 1px solid black;
-       display: block;
-       width: 12em;
-       height: 3em;
-       margin: 0 auto;
-       color: black;
-       background-color: white;
-       padding: 0.7rem;
-       cursor: pointer;
-       border-radius: 15px;
-   }
+ /***********Input fields***********/
+ input[type="submit"] {
+     border: 1px solid black;
+     display: block;
+     width: 12em;
+     height: 3em;
+     margin: 0 auto;
+     color: black;
+     background-color: white;
+     padding: 0.7rem;
+     cursor: pointer;
+     border-radius: 15px;
+ }
 
-   input[type="submit"]:hover {
-       background-color: black;
-       color: white;       
-       border: 1px solid white;
-   }
+ input[type="submit"]:hover {
+     background-color: black;
+     color: white;       
+     border: 1px solid white;
+ }
 
-   input {
-       background: transparent;
-       border-bottom: 1px solid white;
-       border-top: 0;
-       border-left: 0;
-       border-right: 0;
-       padding: 10px;
-       width: 25rem;
-       color: white;
-   }
+ input {
+     background: transparent;
+     border-bottom: 1px solid white;
+     border-top: 0;
+     border-left: 0;
+     border-right: 0;
+     padding: 10px;
+     width: 25rem;
+     color: white;
+ }
 
-   input[type="text"]:focus,
-   input[type="email"]:focus,
-   input[type="password"]:focus {
-       outline: 0;
-       border-color: transparent;
-       border: 1px solid white;
+ input[type="text"]:focus,
+ input[type="email"]:focus,
+ input[type="password"]:focus {
+     outline: 0;
+     border-color: transparent;
+     border: 1px solid white;
 
-   }
+ }
 
-   ::placeholder {
-       color: #d3d3d3;
-   }
+ ::placeholder {
+     color: #d3d3d3;
+ }
 
 </style>
 </head>
 <body>
+  <!-----------Alert------------>
    <?php if (isset($_SESSION['message'])): ?>
   <div class="alert alert-<?=$_SESSION['msg_type']?>" >
     <?php 
@@ -133,7 +135,8 @@ if (isset($_REQUEST['username'])){
   </div>
   <?php endif ?>
     <br>
-  <div style="display:flex; justify-content: center;">
+  <!-----------Registration Form------------>
+<div style="display:flex; justify-content: center;">
  <div id="container" class="form">
          <h3>Register</h3>
          <form name="registration" action="" method="post">

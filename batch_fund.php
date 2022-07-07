@@ -4,6 +4,7 @@ include('auth.php');
 ?>
 
 <?php
+//Edit batch fund
 if (isset($_GET['edit'])) 
 {
 	$id = $_GET['edit'];
@@ -15,7 +16,6 @@ if (isset($_GET['edit']))
 		$id = $res['batch_id'];
 	}
 }
-
 ?>
 
 
@@ -33,12 +33,47 @@ if (isset($_GET['edit']))
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <title>Batch Funds</title>
 <style type="text/css">
+
 	body {
         color: #566787;
 		background: #f5f5f5;
 		font-family: 'Varela Round', sans-serif;
 		font-size: 15px;
 	}
+
+	/************************Navbar************************/
+	 ul {
+	  list-style-type: none;
+	  margin: 0;
+	  padding: 0;
+	  overflow: hidden;
+	  border: 1px solid #e7e7e7;
+	  background-color: #f3f3f3;
+	}
+
+	li {
+	  float: right;
+	}
+
+	li a {
+	  display: block;
+	  color: #666;
+	  text-align: center;
+	  padding: 14px 16px;
+	  text-decoration: none;
+	}
+
+	li a:hover:not(.active) {
+	  background-color: #ddd;
+	}
+
+	li a.active {
+	  color: white;
+	  background-color: #04AA6D;
+	}
+
+	/************************Table************************/
+
 	.table-wrapper {
         background: #fff;
         padding: 15px 20px;
@@ -87,6 +122,9 @@ if (isset($_GET['edit']))
     table.table td a.delete {
         color: #F44336;
     }
+
+    /************************Search Filter************************/
+
     #search
     {
     	width: 99%;
@@ -95,6 +133,7 @@ if (isset($_GET['edit']))
     	border-style: 1px solid gray;
     }
 
+    /************************Alert Message************************/
     .alert
     {
     	display: flex;
@@ -102,42 +141,16 @@ if (isset($_GET['edit']))
     	color: #435d7d;
     	padding-left: 1em;
     }
-	 ul {
-	  list-style-type: none;
-	  margin: 0;
-	  padding: 0;
-	  overflow: hidden;
-	  border: 1px solid #e7e7e7;
-	  background-color: #f3f3f3;
-	}
-
-	li {
-	  float: right;
-	}
-
-	li a {
-	  display: block;
-	  color: #666;
-	  text-align: center;
-	  padding: 14px 16px;
-	  text-decoration: none;
-	}
-
-	li a:hover:not(.active) {
-	  background-color: #ddd;
-	}
-
-	li a.active {
-	  color: white;
-	  background-color: #04AA6D;
-	}
 
 </style> 
   <body>
+  	<!----------------Navbar---------------->
   	<ul>
   	  <li><a href="logout.php">Logout</a></li>
 	  <li><a href="dashboard.php"><p><?php echo $_SESSION['username']; ?></p></a></li>
 	</ul>
+
+	<!----------------Alerts---------------->
   	<?php if (isset($_SESSION['message'])): ?>
 	<div class="alert alert-<?=$_SESSION['msg_type']?>" >
 		<?php 
@@ -146,22 +159,25 @@ if (isset($_GET['edit']))
 		?>
 	</div>
 	<?php endif ?>
-
-
   	<br>
+
+  	<!----------------Table---------------->
     <div class="container">
         <div class="table-wrapper">
             <div class="table-title">
                 <div class="row">
                     <div class="col-sm-6">
 						<h2>Batch Funds</h2>
-
 					</div>
+
+	<!----------------New Batch---------------->
 					<div class="col-sm-6">
 						<a href="#addModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Batch</span></a>
 					</div>
                 </div>
             </div>
+    
+     <!----------------Search Filter---------------->
             <table class="table table-striped table-hover" id="batches">
             	<br>
             	<input type="text" placeholder="Search.." id="search" onkeyup="search()">
@@ -174,6 +190,8 @@ if (isset($_GET['edit']))
                     </tr>
                 </thead>
                 <tbody>
+
+    <!----------------Fetching Entities---------------->
             <?php
             $sql = "SELECT batch_id, batch_name FROM batch_fund ORDER BY batch_id";
             $result = mysqli_query($conn, $sql);
@@ -187,10 +205,11 @@ if (isset($_GET['edit']))
                     echo '<td>'. $batch_id .'</td>';
                     echo '<td>'. $batch_name .'</td>';?>
                      <td>
+
+                     	<!----------------Controls---------------->
 						 <a href="batch_fund.php?edit=<?php echo $batch_id;?>" name="edit" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" id="edit" title="Edit">&#xE254;</i></a>
 				
-
-                          <a href="crud_b.php?del=<?php echo $row['batch_id'];?>"  name="delete" class="del_btn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" id="delete." title="Delete">&#xE872;</i></a>
+                         <a href="crud_b.php?del=<?php echo $row['batch_id'];?>"  name="delete" class="del_btn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" id="delete." title="Delete">&#xE872;</i></a>
 
                     </td>
                   <?php  echo '</tr>';
@@ -202,7 +221,7 @@ if (isset($_GET['edit']))
             </table>
         </div>
     </div>
-    <!-- Add Modal HTML -->
+    <!----------------Add New Batch Fund---------------->
 	<div id="addModal" class="modal fade">
 			<div class="modal-dialog">
 				<div class="modal-content">
@@ -229,10 +248,8 @@ if (isset($_GET['edit']))
 				</div>
 			</div>
 	</div>
-	
 		
-
-	<!-- Edit Modal HTML -->
+	<!----------------Edit Batch Fund---------------->
 	<div id="editModal" class="modal fade">
 			<div class="modal-dialog">
 				<div class="modal-content">
@@ -261,6 +278,7 @@ if (isset($_GET['edit']))
 
 </body>
 <script>
+/* Search Filter */
 function search() {
   var input, filter, table, tr, td, i, txtValue;
   input = document.getElementById("search");
@@ -283,8 +301,8 @@ function search() {
 }
 </script>
 
-<script src="assets/js/jquery.js"></script>
-<?php			
+<?php	
+//Show modal		
 	if(!empty($showModal)) {
 		echo '<script type="text/javascript">
 			$(document).ready(function(){

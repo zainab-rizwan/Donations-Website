@@ -52,15 +52,15 @@ if (isset($_POST['username']))
     }
 
    body {
-       background: url("images/top-bg.jpg") no-repeat center center fixed;
+       background: url("images/top-bg-2.jpg") no-repeat center center fixed;
        background-size: cover;
 
    }
-
+   /***********Login form************/
    #container {
        background-color: black;
        padding: 3em;
-       opacity: 0.7;
+       opacity: 0.75;
        width: 0 auto;
        width: 70%;
        margin: 9rem;
@@ -78,7 +78,7 @@ if (isset($_POST['username']))
        border: 0;
        text-align: center;
    }
-
+   /***********Input Types************/
    input[type="submit"] {
        border: 1px solid black;
        display: block;
@@ -122,7 +122,7 @@ if (isset($_POST['username']))
        color: #d3d3d3;
    }
 
-
+   /***********Alert************/
    .alert-success
    {
     background-color: #39C16C ;
@@ -132,6 +132,7 @@ if (isset($_POST['username']))
 </head>
 
 <body>
+  <!-----------Alerts-------------->
   <?php if (isset($_SESSION['message'])): ?>
   <div class="alert alert-<?=$_SESSION['msg_type']?>" >
     <?php 
@@ -141,6 +142,8 @@ if (isset($_POST['username']))
   </div>
   <?php endif ?>
   <br>
+
+  <!-----------Login Form-------------->
   <div style="display:flex; justify-content: center;">
     <div id="container" class="form">
            <h3>Sign In</h3>

@@ -120,7 +120,7 @@ require_once('db_connection.php');
       {
         background: #435d7d;
         color: white;
-        width: 25%;
+        width: 20rem;
         height: 3.5em;
         border:0px solid white;
         margin: 2% 2% 2% 2%;
@@ -151,6 +151,14 @@ require_once('db_connection.php');
     background-position: 50.00% 85.00%;
     overflow: hidden;
 }
+    
+    .table-sm
+    {
+      text-align: center; 
+      border: 2px solid black; 
+      width: 32rem;
+       border-collapse: collapse;
+    }
 
 
 
@@ -168,7 +176,7 @@ require_once('db_connection.php');
       <div class="col-md-4" style="border-left: 0;">
         <div>
          <p style="float: right;"><b><u><i>Bank Copy</i></u></b></p>
-            <p><img src="images/uet.jpeg" width="250" border="1px"></p>
+            <p><img src="images/uet.jpeg" width="250"></p>
         </div>
         <p id="rectangle" style="font-size: 12px;">U.E.T. NTN </p>
         <div id="d-info">
@@ -319,30 +327,84 @@ require_once('db_connection.php');
       <div class="col-md-4" style="font-size: 12px; border-right: 0;">
         <p id="info">Important Information</p>
         <p><u><b>Mode of payment</b></u></p>
-        <p>Your donation slip has been generated. You can pay this via either:</p>
-        <ol>
-          <li>
-             <b>BILL:</b>
-             <p> This payment option is available on online/mobile/internet banking payment portals where Invoice/Voucher payment option can be found.</p>
-          </li>
-          <li>
-            <b>Payment through Online/Credit/Debit Card:</b>
-            <p>Visit https://pay.uet.edu.pk/donations/to donate via your debit/credit card. Additional bank charges may apply.</p>
-          </li>
-          <li>
-            <b>ATM:</b>
-            <p>At any 1Link ATM, select bill payment, select bill payee (Education - U.E.T.), enter your 13-digit voucher number, and pay the pledged amount.</p>
-          </li>
-          <li>
-            <b>Bank Deposit:</b>
-            <p>Voucher/Invoice can be paid through cash, pay order, or bank drafts made in favor of "Lahore University of Management Sciences" at any HBL bank branch. Bank deposits need to be done up to two days prior to donation slip expiry</p>
-          </li>
-        </ol>
-        <p><u><b>Bank Al-Habib Limited</b></u></p>
-        <ol>
-          <li>Head Office, Karachi: 92-21-32277231-239, Regional Office, Lahore: 0337-3173909</li>
-          <li>DHA Ph. 5 Branch: 042-37189231 042-37189234</li>
-        </ol>
+        <p>Your donation slip has been generated. You can pay via either Bill, Online/Credit/Debit Card, ATM or Bank Deposit </p>
+        <p><b>Bank Information</b></p>
+        <div class="table-wrapper">
+          <!----------Table 1----------->
+            <table class="table-sm table-hover table-bordered ">
+              <thead>
+                  <tr>
+                      <th>Account Title</th>
+                      <th>UET Lahore Alumni Fund</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                    <td>Account Number</td>
+                    <td>01287903038101</td>
+                  </tr> 
+                  <tr>
+                    <td>Bank name</td>
+                    <td>Habib Bank Account</td>
+                  </tr>
+                  <tr>
+                    <td>Bank Address</td>
+                    <td>UET, Lahore</td>
+                  </tr>
+                  <tr>
+                    <td>IBAN</td>
+                    <td>PK27HABB0001287903038101</td>
+                  </tr>
+                  <tr>
+                    <td>Swift Code</td>
+                    <td>HABBPKKA</td>
+                  </tr> 
+                   <tr>
+                    <td>Branch Code</td>
+                    <td>0128</td>
+                  </tr>                              
+              </tbody>
+            </table>
+        </div>
+        <br>
+            <!----------Table 2------------>
+            <table class="table-sm table-hover table-bordered ">
+              <thead>
+                  <tr>
+                      <th>Account Title</th>
+                      <th>UET Zakat Fund</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                    <td>Account Number</td>
+                    <td>01280035900301</td>
+                  </tr> 
+                  <tr>
+                    <td>Bank name</td>
+                    <td>Habib Bank Account</td>
+                  </tr>
+                  <tr>
+                    <td>Bank Address</td>
+                    <td>UET, Lahore</td>
+                  </tr>
+                  <tr>
+                    <td>IBAN</td>
+                    <td>PK27HABB0001287903038101</td>
+                  </tr>
+                  <tr>
+                    <td>Swift Code</td>
+                    <td>HABBPKKA</td>
+                  </tr> 
+                   <tr>
+                    <td>Branch Code</td>
+                    <td>0128</td>
+                  </tr>                              
+              </tbody>
+            </table>
+        </div>
+    </div>
+</div>
       </div>
     </div>
 </div>

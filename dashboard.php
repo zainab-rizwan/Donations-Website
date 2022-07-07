@@ -21,7 +21,7 @@ include("auth.php");
        height: 100%;
        width: 100%;
    }
-
+   /******************Navbar******************/
    ul {
     list-style-type: none;
     margin: 0;
@@ -52,6 +52,7 @@ include("auth.php");
     background-color: #04AA6D;
   }
 
+  /******************Main board******************/
    #container {
        background-color: black;
        padding: 3em;
@@ -83,6 +84,7 @@ include("auth.php");
     text-align: left;
    }
 
+   /******************Table******************/
    .container
    {
     padding:5%;
@@ -94,11 +96,13 @@ include("auth.php");
 </style>
 </head>
 <body>
+  <!---------Navbar-------->
   <ul>
       <li><a href="logout.php">Logout</a></li>
     <li><a href="dashboard.php"><?php echo $_SESSION['username']; ?></a></li>
   </ul>
 
+  <!---------Main Board-------->
   <div id="container">
     <h3>Admin Access</h3>
         <p>Welcome <?php echo $_SESSION['username']; ?>!</p>
@@ -107,12 +111,13 @@ include("auth.php");
         <p><a href="registration.php">Register User</a></p>
   </div>
 
+  <!---------Table-------->
   <h3 style="color: black;">Registered Users</h3>
   <div class="container">
         <div class="table-wrapper">
             <div class="table-title">
                 <div class="row">
-                  <table class="table table-hover" style="text-align: center;">
+                  <table class="table table-hover table-bordered" style="text-align: center;">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -134,7 +139,7 @@ include("auth.php");
                               echo '<tr>';
                               echo '<td>'. $id .'</td>';
                               echo '<td>'. $name .'</td>';
-                              echo '<td>'. $name .'</td>';
+                              echo '<td>'. $email .'</td>';
                               echo '</tr>';
                           }
                       }?>
