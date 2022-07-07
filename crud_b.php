@@ -7,7 +7,7 @@ if (isset($_POST['create'])) {
 	$title = $_POST['title'];
 	$result = mysqli_query($conn, "SELECT MAX(batch_id) as 'max' FROM batch_fund");
 	$row = mysqli_fetch_array($result);
-	$last_id= $row['max'] + 1;
+	$last_id= 0;
 
 
 	$sql1 = "INSERT INTO `batch_fund` (`batch_id`, `batch_name`) VALUES ( '$last_id', '$title')";
@@ -15,8 +15,9 @@ if (isset($_POST['create'])) {
 	if ($conn->query($sql1) === TRUE) {
 	    $_SESSION['message'] = "Batch fund created!"; 
 	    $_SESSION['msg_type'] = "Success!"; 
+	    $last_id = $conn->insert_id;  
 	    header('location: batch_fund.php');
-	     exit();
+	    exit();
 
 	} else {
 	    $_SESSION['message'] = $sql1 . "<br>" . $conn->error;
@@ -43,7 +44,6 @@ if(isset($_POST['update']))
 	    $_SESSION['message'] = $sql . "<br>" . $conn->error;
 	    $_SESSION['msg_type'] = "Error";
 	   	header('location: batch_fund.php');
-
 	    exit();
 	} 
 }

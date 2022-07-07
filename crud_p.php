@@ -7,7 +7,7 @@ if (isset($_POST['create'])) {
 	$title = $_POST['title'];
 	$result = mysqli_query($conn, "SELECT MAX(particular_id) as 'max' FROM particulars");
 	$row = mysqli_fetch_array($result);
-	$last_id= $row['max'] + 1;
+	$last_id= 0;
 
 
 	$sql1 = "INSERT INTO `particulars` (`particular_id`, `particular_name`) VALUES ( '$last_id', '$title')";
@@ -16,7 +16,8 @@ if (isset($_POST['create'])) {
 	    $_SESSION['message'] = "Particular created!"; 
 	    $_SESSION['msg_type'] = "Success!"; 
 	    header('location: particulars.php');
-	     exit();
+	    $last_id = $conn->insert_id; 
+	    exit();
 
 	} else {
 	    $_SESSION['message'] = $sql1 . "<br>" . $conn->error;

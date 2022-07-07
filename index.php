@@ -96,9 +96,9 @@ require_once('db_connection.php');
     .section-top-bg {
     width: 100%;
     height: 350px;
-    background-image: url(images/top-bg.png);
+    background-image: url(images/top-bg-1.jpg);
     background-size: cover;
-    background-position: 50.00% 60.00%;
+    background-position: 50.00% 85.00%;
     overflow: hidden;
 }
 

@@ -66,9 +66,9 @@ if (($_POST))
       .section-top-bg {
     width: 100%;
     height: 350px;
-    background-image: url(images/top-bg.png);
+    background-image: url(images/top-bg-1.jpg);
     background-size: cover;
-    background-position: 50.00% 60.00%;
+    background-position: 50.00% 85.00%;
     overflow: hidden;
 }
 
@@ -319,8 +319,7 @@ if (($_POST))
                           foreach( $particulars as $key => $particular ) {
                                 $sql = "SELECT particular_id, particular_name FROM particulars WHERE particular_id= $particular";
                                 if ($particular==3)
-                                {
-                                  
+                                {                                  
                                   $batchid=$_POST['batchid'];
                                 }
                                 else
@@ -353,7 +352,7 @@ if (($_POST))
                       </table>
 
                         <h5>Total Amount: <?php echo $total . " ". $currency ?></h5>
-                        <h5>In Words: <?php echo $f->format($total); ?></h5>
+                        <h5>In Words: <?php echo ucfirst($f->format($total)); ?></h5>
 
                         <input value="Edit Selection" type="button" onclick="history.back()" class="btn"/>
                      </div>

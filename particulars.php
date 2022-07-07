@@ -1,6 +1,6 @@
 <?php
 require_once('db_connection.php');
-include('crud_p.php');
+include('auth.php');
 ?>
 
 <?php
@@ -102,9 +102,42 @@ if (isset($_GET['edit']))
     	color: #435d7d;
     	padding-left: 1em;
     }
+    	 ul {
+	  list-style-type: none;
+	  margin: 0;
+	  padding: 0;
+	  overflow: hidden;
+	  border: 1px solid #e7e7e7;
+	  background-color: #f3f3f3;
+	}
+
+	li {
+	  float: right;
+	}
+
+	li a {
+	  display: block;
+	  color: #666;
+	  text-align: center;
+	  padding: 14px 16px;
+	  text-decoration: none;
+	}
+
+	li a:hover:not(.active) {
+	  background-color: #ddd;
+	}
+
+	li a.active {
+	  color: white;
+	  background-color: #04AA6D;
+	}
 
 </style> 
   <body>
+  	<ul>
+  	  <li><a href="logout.php">Logout</a></li>
+	  <li><a href="dashboard.php"><p><?php echo $_SESSION['username']; ?></p></a></li>
+	</ul>
   	<?php if (isset($_SESSION['message'])): ?>
 	<div class="alert alert-<?=$_SESSION['msg_type']?>" >
 		<?php 

@@ -98,18 +98,17 @@ if (isset($_POST["donation-info"]))
   .section-top-bg {
     width: 100%;
     height: 350px;
-    background-image: url(images/top-bg.png);
+    background-image: url(images/top-bg-1.jpg);
     background-size: cover;
-    background-position: 50.00% 60.00%;
+    background-position: 50.00% 85.00%;
     overflow: hidden;
 }
 
   .intro-div {
       width: 95% !important;
-      height: auto;
       background-color: white;
       margin-top: 170px;
-      padding: 1% 9% 2% 9%;
+      padding: 2% 9% 2% 9%;
       margin-left: auto;
       margin-right: auto;
       word-wrap: break-word;
@@ -145,9 +144,10 @@ if (isset($_POST["donation-info"]))
       padding: 1em;
     }
 
-
-
-     
+    th
+    {
+      text-align: center;
+    } 
 </style>
   
 </head>
@@ -160,8 +160,6 @@ if (isset($_POST["donation-info"]))
                 <div class="intro-div">
                     <br>
                     <h1><strong>Thank You <?php echo $fname . " " . $lname ; ?>!</strong></h1>
-                    <p>Thank you for your generous donation to U.E.T. We truly appreciate your commitment.
-                    </p>
                     <br>                
                 </div>
             </div>
@@ -174,31 +172,95 @@ if (isset($_POST["donation-info"]))
       <div class="form-group">
           <h3>Here is your payment code:<b><?php echo $inv_id ?></b></h3>
           <hr>
-          <h4>You can donate via either:</h4>
-
-        <ul>
-            <li><b>IBFT:</b></li>
-            <p>Through your ABL, Askari, BAFL, BAHL, FBL, Meezan or SCB internet banking portal, add bill payee UET and enter your payment code to pay</p>
-
-            <li><b>ATM:</b></li>
-            <p>At any 1LINK ATM, select bill payment, select bill payee (Education - UET), and enter your payment code to pay.</p>
-
-            <li><b>Bank Deposit:</b></li>
-            <p>Donate to UET through cash, pay order or bank drafts made in favor of "University of Engineering and Technology" at any branch of ABL, Meezan or BAHL Banks in Pakistan.</p>
-        </ul>
-            <br>
-            <p>To download your donation challan, please <a href="invoice.php" id="generatePDF">click here</a></p>
+            <p>Thank you for your generous donation to U.E.T. We truly appreciate your commitment. </p>
+            <p>To download your donation challan, please <a href="invoice.php" id="create_pdf">click here</a></p>
       </div>
   <div>
 </div>
+
+<div class="container">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-6">
+          </div>
+          
+                </div>
+            </div>
+            <table class="table table-hover" style="text-align: center;">
+              <thead>
+                  <tr>
+                      <th>Account Title</th>
+                      <th>UET Lahore Alumni Fund</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                    <td>Account Number</td>
+                    <td>01287903038101</td>
+                  </tr> 
+                  <tr>
+                    <td>Bank name</td>
+                    <td>Habib Bank Account</td>
+                  </tr>
+                  <tr>
+                    <td>Bank Address</td>
+                    <td>UET, Lahore</td>
+                  </tr>
+                  <tr>
+                    <td>IBAN</td>
+                    <td>PK27HABB0001287903038101</td>
+                  </tr>
+                  <tr>
+                    <td>Swift Code</td>
+                    <td>HABBPKKA</td>
+                  </tr> 
+                   <tr>
+                    <td>Branch Code</td>
+                    <td>0128</td>
+                  </tr>                              
+              </tbody>
+            </table>
+
+            <table class="table table-hover" style="text-align: center;">
+              <thead>
+                  <tr>
+                      <th>Account Title</th>
+                      <th>UET Zakat Fund</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                    <td>Account Number</td>
+                    <td>01280035900301</td>
+                  </tr> 
+                  <tr>
+                    <td>Bank name</td>
+                    <td>Habib Bank Account</td>
+                  </tr>
+                  <tr>
+                    <td>Bank Address</td>
+                    <td>UET, Lahore</td>
+                  </tr>
+                  <tr>
+                    <td>IBAN</td>
+                    <td>PK27HABB0001287903038101</td>
+                  </tr>
+                  <tr>
+                    <td>Swift Code</td>
+                    <td>HABBPKKA</td>
+                  </tr> 
+                   <tr>
+                    <td>Branch Code</td>
+                    <td>0128</td>
+                  </tr>                              
+              </tbody>
+            </table>
+
+        </div>
+    </div>
 </div>
 <footer>Footer</footer>
-
-
-
 </body>
-
-
-
-
 </html>
+
