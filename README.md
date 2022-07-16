@@ -1,2 +1,2 @@
 # Donations-Website
-A sample site to collect donations.
+A sample site to collect donations
