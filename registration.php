@@ -8,9 +8,15 @@ if (isset($_REQUEST['username'])){
     $email = mysqli_real_escape_string($conn,$email);
     $password = stripslashes($_REQUEST['password']);
     $password = mysqli_real_escape_string($conn,$password);
-    $query = "INSERT into `admin` (username, password, email) VALUES ('$username', '".md5($password)."', '$email')";
-    $result = mysqli_query($conn,$query);
-    if($result)
+    $pass=md5($password);
+
+    $sql1="INSERT into admin (username, password, email) VALUES (?, ?, ?)";
+    $stmt = $conn->prepare($sql1); 
+    $stmt->bind_param("sss", $username, $pass, $email);
+    $result1 = $stmt->execute();
+  //  $result1 = $stmt->get_result();
+
+    if($result1)
     {
         echo
             $_SESSION['message'] = "You are registered successfully."; 

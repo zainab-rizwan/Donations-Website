@@ -7,8 +7,15 @@ include('auth.php');
 //Edit particulars
 if (isset($_GET['edit'])) 
 {
-	$id = $_GET['edit'];
-	$result = mysqli_query($conn, "SELECT * FROM `particulars` WHERE particular_id=$id");
+	$id = stripslashes($_GET['edit']);
+    $id = mysqli_real_escape_string($conn, $id);
+
+	$sql = "SELECT * FROM particulars WHERE particular_id=?";
+	$stmt = $conn->prepare($sql); 
+	$stmt->bind_param("i", $id);
+	$stmt->execute();
+	$result = $stmt->get_result();
+
 	$showModal = "true";
 	while($res = mysqli_fetch_array($result))
 	{
@@ -177,7 +184,7 @@ if (isset($_GET['edit']))
             </div>
             <table class="table table-striped table-hover" id="particulars">
             	<br>
-            	<input type="text" placeholder="Search.." id="search" onkeyup="search()">
+            	<input type="text" placeholder="Search particular" id="search" onkeyup="search()">
             	<br>
                 <thead>
                     <tr>
@@ -256,7 +263,7 @@ if (isset($_GET['edit']))
 						<div class="modal-body">					
 							<div class="form-group">
 								<label>Particular Title</label>
-								<input type="text" class="form-control" name="name"  value=<?php echo $name;?> required>
+								<input type="text" class="form-control" name="name" required>
 								<input type="hidden" class="form-control" name="id" value=<?php echo $id;?> required>
 							</div>
 						<div class="modal-footer">

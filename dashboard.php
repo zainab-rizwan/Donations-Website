@@ -127,8 +127,10 @@ include("auth.php");
                     </thead>
                     <tbody>
                       <?php
-                      $sql = "SELECT id, username, email FROM admin ORDER BY id";
-                      $result = mysqli_query($conn, $sql);
+                      $sql="SELECT id, username, email FROM admin ORDER BY id";
+                      $stmt = $conn->prepare($sql);
+                      $stmt->execute();
+                      $result = $stmt->get_result();
                       if(mysqli_num_rows($result) > 0){
 
                           while ($row = mysqli_fetch_assoc($result)) 

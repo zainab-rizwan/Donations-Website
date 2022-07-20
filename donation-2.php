@@ -2,10 +2,11 @@
 <?php
 session_start();
 require_once('db_connection.php');
+header("Cache-Control: no cache");
 //Express number in words
 $f = new \NumberFormatter("en", \NumberFormatter::SPELLOUT);    
 
-if (($_POST))
+if((isset($_POST) && !empty($_POST)))
 {
    $currency=$_POST['currency'];
    $affiliation = $_POST['affiliation']; 
@@ -15,6 +16,11 @@ if (($_POST))
    $_SESSION['currency'] = $currency;
    $_SESSION['affiliation'] = $affiliation;
 }
+else
+{
+  header('location: donation-1.php');
+}
+
 
 ?>
 
@@ -317,7 +323,11 @@ if (($_POST))
                     $res_amount=array();
                     $batches=array();
                     foreach( $particulars as $key => $particular ) {
-                          $sql = "SELECT particular_id, particular_name FROM particulars WHERE particular_id= $particular";
+                          $sql = "SELECT particular_id, particular_name FROM particulars WHERE particular_id= ?";
+                          $stmt = $conn->prepare($sql); 
+                          $stmt->bind_param("i", $particular);
+                          $stmt->execute();
+                          
                           if ($particular==3)
                           {                                  
                             $batchid=$_POST['batchid'];
@@ -327,7 +337,7 @@ if (($_POST))
                             $batchid=0;
                           }
                            array_push($batches, $batchid);
-                           $result = mysqli_query($conn, $sql);
+                           $result = $stmt->get_result();
                           if(mysqli_num_rows($result) > 0){
                             while ($row = mysqli_fetch_assoc($result)) 
                           {

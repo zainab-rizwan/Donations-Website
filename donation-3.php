@@ -1,17 +1,37 @@
 <?php
 session_start();
 require_once('db_connection.php');
-if (isset($_POST["donation-info"]))
+header("Cache-Control: no cache");
+
+if(isset($_POST["donation-info"])  && !empty($_POST))
 {
+
   $title = $_POST['title'];   
-  $fname = $_POST['fname'];
-  $lname = $_POST['lname'];
-  $email = $_POST['email'];
-  $phone = $_POST['phone'];
-  $address = $_POST['address'];
-  $city = $_POST['city'];
-  $state = $_POST['state'];
-  $country = $_POST['country'];
+
+  $fname = stripslashes($_REQUEST['fname']);
+  $fname = mysqli_real_escape_string($conn,$fname);
+
+  $lname = stripslashes($_REQUEST['lname']);
+  $lname = mysqli_real_escape_string($conn,$lname);
+
+  $email = stripslashes($_REQUEST['email']);
+  $email = mysqli_real_escape_string($conn,$email);
+
+  $phone = stripslashes($_REQUEST['phone']);
+  $phone = mysqli_real_escape_string($conn,$phone);
+
+  $address = stripslashes($_REQUEST['address']);
+  $address = mysqli_real_escape_string($conn,$address);
+
+  $city = stripslashes($_REQUEST['city']);
+  $city = mysqli_real_escape_string($conn,$city);
+
+  $state = stripslashes($_REQUEST['state']);
+  $state = mysqli_real_escape_string($conn,$state);
+
+  $country = stripslashes($_REQUEST['country']);
+  $country = mysqli_real_escape_string($conn,$country);
+
   $paytype = $_POST['paytype'];
 
   $_SESSION['title'] = $title;
@@ -34,8 +54,12 @@ if (isset($_POST["donation-info"]))
 
   //Insert into users
   $user_id = 0;
-  $sql1 = "INSERT INTO `users` (`user_id`, `title`,`fname`,`lname`,`affiliation`,`email`,`phone`,`address`,`city`,`state`,`country`) VALUES ( ' $user_id', '$title','$fname', '$lname','$affiliation', '$email','$phone', '$address','$city', '$state', '$country')";
-   if ($conn->query($sql1) === TRUE) {
+  $sql1 = "INSERT INTO users (user_id, title, fname, lname, affiliation, email, phone, address, city, state, country) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+  $stmt = $conn->prepare($sql1); 
+  $stmt->bind_param("isssssissss", $user_id, $title, $fname, $lname, $affiliation, $email, $phone, $address, $city, $state, $country);
+  $result1 = $stmt->execute();
+
+  if ($result1) {
     $user_id = $conn->insert_id;  
   } else {
       echo $conn->error;
@@ -43,8 +67,13 @@ if (isset($_POST["donation-info"]))
 
   //Insert into invoice
   $inv_id = 0;
-  $sql2 = "INSERT INTO `invoice` (`id`, `user_id`,`currency`,`payment_method`,`status`,`dateofinvoice`) VALUES ( '$inv_id', '$user_id','$currency','$paytype', 'UNPAID','$date')";
-   if ($conn->query($sql2) === TRUE) {
+  $sql2 = "INSERT INTO invoice (id, user_id, currency, payment_method, status, dateofinvoice) VALUES (?, ?, ?,?, ?,?)";
+  $status='UNPAID';
+  $stmt = $conn->prepare($sql2); 
+  $stmt->bind_param("iissss", $inv_id, $user_id, $currency, $paytype, $status, $date);
+  $result2 = $stmt->execute();
+
+  if ($result2) {
     $inv_id = $conn->insert_id; 
     $_SESSION['inv_id'] = $inv_id;  
   } else {
@@ -57,13 +86,17 @@ if (isset($_POST["donation-info"]))
     $particular_id=$key;
     $amount=$value;
     $batchid= $pid_bid[$particular_id];
-    $sql3 = "INSERT INTO `invoice_particulars` (`invoice_particulars_id`, `invoice_id`,`particular_id`,`amount`,`batch_id`) VALUES ( 'par_$inv_id', '$inv_id','$particular_id','$amount', $batchid)";
+    $sql3 = "INSERT INTO `invoice_particulars` (`invoice_particulars_id`, `invoice_id`,`particular_id`,`amount`,`batch_id`) VALUES ('par_$inv_id', '$inv_id','$particular_id','$amount', $batchid)";
      if ($conn->query($sql3) === TRUE) {
       $par_inv_id = $conn->insert_id;   
     } else {
         echo $conn->error;
     }
   } 
+}
+else
+{
+  header('location: donation-2.php');
 }
 ?>
 
@@ -164,7 +197,7 @@ if (isset($_POST["donation-info"]))
             <div class="col-md-12">
                 <div class="intro-div">
                     <br>
-                    <h1><strong>Thank You <?php echo $fname . " " . $lname ; ?>!</strong></h1>
+                    <h1><b>Thank You <?php echo $fname . " " . $lname ; ?>!</b></h1>
                     <br>                
                 </div>
             </div>

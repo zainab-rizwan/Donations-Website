@@ -7,8 +7,15 @@ include('auth.php');
 //Edit batch fund
 if (isset($_GET['edit'])) 
 {
-	$id = $_GET['edit'];
-	$result = mysqli_query($conn, "SELECT * FROM `batch_fund` WHERE batch_id=$id");
+    $id = stripslashes($_GET['edit']);
+    $id = mysqli_real_escape_string($conn, $id);
+
+    $sql = "SELECT * FROM batch_fund WHERE batch_id=?";
+	$stmt = $conn->prepare($sql); 
+	$stmt->bind_param("i", $id);
+	$stmt->execute();
+	$result = $stmt->get_result();
+
 	$showModal = "true";
 	while($res = mysqli_fetch_array($result))
 	{
@@ -193,7 +200,7 @@ if (isset($_GET['edit']))
 
     <!----------------Fetching Entities---------------->
             <?php
-            $sql = "SELECT batch_id, batch_name FROM batch_fund ORDER BY batch_id";
+            $sql = "SELECT batch_id, batch_name FROM batch_fund WHERE batch_id>0 ORDER BY batch_id  ";
             $result = mysqli_query($conn, $sql);
             if(mysqli_num_rows($result) > 0){
 
@@ -261,7 +268,7 @@ if (isset($_GET['edit']))
 						<div class="modal-body">					
 							<div class="form-group">
 								<label>Batch Fund Title</label>
-								<input type="text" class="form-control" name="name"  value=<?php echo $name;?> required>
+								<input type="text" class="form-control" name="name" required>
 								<input type="hidden" class="form-control" name="id" value=<?php echo $id;?> required>
 							</div>
 						<div class="modal-footer">

@@ -1,5 +1,7 @@
 <?php
 require_once('db_connection.php');
+header("Cache-Control: no cache");
+session_cache_limiter("private_no_expire");
 ?>
 
 <!DOCTYPE html>
@@ -16,6 +18,7 @@ require_once('db_connection.php');
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <script src="jquery-3.6.0.min.js"></script>
+
   <script>
 
     /* Display form when currency is selected */
@@ -414,7 +417,9 @@ require_once('db_connection.php');
 
                 <?php
                     $sql = "SELECT * FROM batch_fund where batch_id>0";
-                    $result = mysqli_query($conn, $sql);
+                    $stmt = $conn->prepare($sql);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
                     if(mysqli_num_rows($result) > 0)
                     {
                         while ($row = mysqli_fetch_assoc($result)) 

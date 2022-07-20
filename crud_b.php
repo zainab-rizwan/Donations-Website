@@ -4,15 +4,17 @@ include 'db_connection.php';
 
 //Create new batch fund
 if (isset($_POST['create'])) {
-	$title = $_POST['title'];
-	$result = mysqli_query($conn, "SELECT MAX(batch_id) as 'max' FROM batch_fund");
-	$row = mysqli_fetch_array($result);
+	$title = stripslashes($_REQUEST['title']);
+    $title = mysqli_real_escape_string($conn,$title);
+
 	$last_id= 0;
+	$sql1="INSERT INTO batch_fund (batch_id, batch_name) VALUES ( ?, ?)";
+	$stmt = $conn->prepare($sql1); 
+	$stmt->bind_param("ss", $id, $title);
+	$stmt->execute();
+	$result1 = $stmt->get_result();
 
-
-	$sql1 = "INSERT INTO `batch_fund` (`batch_id`, `batch_name`) VALUES ( '$last_id', '$title')";
-
-	if ($conn->query($sql1) === TRUE) {
+	if ($conn->query($result1) === TRUE) {
 	    $_SESSION['message'] = "Batch fund created!"; 
 	    $_SESSION['msg_type'] = "Success!"; 
 	    $last_id = $conn->insert_id;  
@@ -20,7 +22,7 @@ if (isset($_POST['create'])) {
 	    exit();
 
 	} else {
-	    $_SESSION['message'] = $sql1 . "<br>" . $conn->error;
+	    $_SESSION['message'] = $result1 . "<br>" . $conn->error;
 	    $_SESSION['msg_type'] = "Error";
 	    header('location: batch_fund.php');
 	    exit();
@@ -30,18 +32,24 @@ if (isset($_POST['create'])) {
 //Edit batch fund
 if(isset($_POST['update']))
 {
-	$name=$_POST['name'];
+	$name = stripslashes($_REQUEST['name']);
+    $name = mysqli_real_escape_string($conn,$name);
 	$id=$_POST['id'];
-	$sql = "UPDATE `batch_fund` SET batch_name='$name' WHERE batch_id=$id";
 
-	if ($conn->query($sql) === TRUE) {
+	$sql2 = "UPDATE batch_fund SET batch_name=? WHERE batch_id=?";
+	$stmt = $conn->prepare($sql2); 
+	$stmt->bind_param("ss", $name, $id);
+	$stmt->execute();
+	$result2 = $stmt->get_result();
+
+	if ($conn->query($result2) === TRUE) {
 	    $_SESSION['message'] = "Batch fund updated!"; 
 	    $_SESSION['msg_type'] = "Success!";
 	    header('location: batch_fund.php');
-	     exit();
+	    exit();
 
 	} else {
-	    $_SESSION['message'] = $sql . "<br>" . $conn->error;
+	    $_SESSION['message'] = $result2 . "<br>" . $conn->error;
 	    $_SESSION['msg_type'] = "Error";
 	   	header('location: batch_fund.php');
 	    exit();
@@ -52,15 +60,20 @@ if(isset($_POST['update']))
 if (isset($_GET['del'])) {
 
 $id = $_GET['del'];
-$sql = "DELETE FROM `batch_fund` WHERE `batch_id`='$id'";
-if ($conn->query($sql) === TRUE) {
+$sql3 = "DELETE FROM batch_fund WHERE batch_id=?";
+$stmt = $conn->prepare($sql3); 
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$result3 = $stmt->get_result();
+
+if ($conn->query($result3) === TRUE) {
 	    $_SESSION['message'] = "Batch fund deleted!"; 
 	    $_SESSION['msg_type'] = "Success!"; 
 	    header('location: batch_fund.php');
 	    exit();
 } 
 else {
-	    $_SESSION['message'] = $sql1 . "<br>" . $conn->error;
+	    $_SESSION['message'] = $result3 . "<br>" . $conn->error;
 	    $_SESSION['msg_type'] = "Error";
 	    header('location: batch_fund.php');
 	    exit();

@@ -7,8 +7,12 @@ if (isset($_POST['username']))
   $username = mysqli_real_escape_string($conn,$username);
   $password = stripslashes($_REQUEST['password']);
   $password = mysqli_real_escape_string($conn,$password);
-  $query = "SELECT * FROM `admin` WHERE username='$username' and password='".md5($password)."'";
-  $result = mysqli_query($conn,$query) or die(mysql_error());
+  $pass=md5($password);
+  $query = "SELECT * FROM admin WHERE username=? and password=?";
+  $stmt = $conn->prepare($query); 
+  $stmt->bind_param("ss", $username, $pass);
+  $stmt->execute();
+  $result = $stmt->get_result();
   $rows = mysqli_num_rows($result);
   if($rows==1)
   {

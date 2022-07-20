@@ -1,12 +1,20 @@
 <?php
 session_start();
 require_once('db_connection.php');  
+
+if(isset($_GET))
+{
   $inv_id = $_SESSION['inv_id']; 
   $title = $_SESSION['title'];
   $fname = $_SESSION['fname'];
   $lname = $_SESSION['lname'];
   $currency = $_SESSION['currency'];
   $total= $_SESSION['total'];
+}
+else
+{
+  header('location: donation-1.php');
+}
 ?>
 
 <!DOCTYPE html>
@@ -189,8 +197,11 @@ require_once('db_connection.php');
        
         <div class="particulars">
         <?php  
-        $sql= "SELECT particular_id, amount, batch_id FROM invoice_particulars WHERE invoice_id=$inv_id";
-        $result = mysqli_query($conn, $sql);
+        $sql= "SELECT particular_id, amount, batch_id FROM invoice_particulars WHERE invoice_id=?";
+        $stmt = $conn->prepare($sql); 
+        $stmt->bind_param("i", $inv_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
           if(mysqli_num_rows($result) > 0)
           {
             while ($row = mysqli_fetch_assoc($result)) 
@@ -205,8 +216,11 @@ require_once('db_connection.php');
               }
               else
               {
-                $sql1="SELECT batch_name FROM batch_fund where batch_id=$batch_id";
-                $result1= mysqli_query($conn, $sql1);
+                $sql1= "SELECT batch_name FROM batch_fund where batch_id=?";
+                $stmt = $conn->prepare($sql1); 
+                $stmt->bind_param("i", $batch_id);
+                $stmt->execute();
+                $result1 = $stmt->get_result();
                 while($row = mysqli_fetch_array($result1)) 
                 {
                        $batch_name=$row['batch_name'];
@@ -214,8 +228,11 @@ require_once('db_connection.php');
                 }
               }
 
-              $sql2="SELECT particular_name FROM particulars where particular_id=$particular_id";
-              $result2= mysqli_query($conn, $sql2);
+              $sql2="SELECT particular_name FROM particulars where particular_id=?";
+              $stmt = $conn->prepare($sql2); 
+              $stmt->bind_param("i", $particular_id);
+              $stmt->execute();
+              $result2 = $stmt->get_result();
               while($row = mysqli_fetch_array($result2)) 
               {
                     $particular_name=$row['particular_name'];
@@ -264,8 +281,11 @@ require_once('db_connection.php');
         <p id="rectangle" class="currency"><?php echo $currency ?></p>
                 <div class="particulars">
         <?php  
-        $sql= "SELECT particular_id, amount, batch_id FROM invoice_particulars WHERE invoice_id=$inv_id";
-        $result = mysqli_query($conn, $sql);
+        $sql= "SELECT particular_id, amount, batch_id FROM invoice_particulars WHERE invoice_id=?";
+        $stmt = $conn->prepare($sql); 
+        $stmt->bind_param("i", $inv_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
           if(mysqli_num_rows($result) > 0)
           {
             while ($row = mysqli_fetch_assoc($result)) 
@@ -280,8 +300,11 @@ require_once('db_connection.php');
               }
               else
               {
-                $sql1="SELECT batch_name FROM batch_fund where batch_id=$batch_id";
-                $result1= mysqli_query($conn, $sql1);
+                $sql1="SELECT batch_name FROM batch_fund where batch_id=?";
+                $stmt = $conn->prepare($sql1); 
+                $stmt->bind_param("i", $batch_id);
+                $stmt->execute();
+                $result1 = $stmt->get_result();
                 while($row = mysqli_fetch_array($result1)) 
                 {
                        $batch_name=$row['batch_name'];
@@ -289,8 +312,11 @@ require_once('db_connection.php');
                 }
               }
 
-              $sql2="SELECT particular_name FROM particulars where particular_id=$particular_id";
-              $result2= mysqli_query($conn, $sql2);
+              $sql2="SELECT particular_name FROM particulars where particular_id=?";
+              $stmt = $conn->prepare($sql2); 
+              $stmt->bind_param("i", $particular_id);
+              $stmt->execute();
+              $result2 = $stmt->get_result();
               while($row = mysqli_fetch_array($result2)) 
               {
                     $particular_name=$row['particular_name'];
