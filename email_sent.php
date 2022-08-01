@@ -1,59 +1,10 @@
 <?php
 require('db_connection.php');
 include('auth.php');
-if (isset($_REQUEST['username'])){
-    $username = stripslashes($_REQUEST['username']);
-    $username = mysqli_real_escape_string($conn,$username); 
-    $email = $_REQUEST["email"];
-    $email = filter_var($email, FILTER_SANITIZE_EMAIL);
-    $email = filter_var($email, FILTER_VALIDATE_EMAIL);
-    $password = stripslashes($_REQUEST['password']);
-    $password = mysqli_real_escape_string($conn,$password);
-    $pass=md5($password);
+header("Cache-Control: no cache");
 
-    $sql1 =("SELECT * FROM admin WHERE email=?");
-    $stmt = $conn->prepare($sql1); 
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $result1 = $stmt->get_result();
+$emailr = $_SESSION["emailr"];
 
-    $sql2 =("SELECT * FROM admin WHERE username=?");
-    $stmt = $conn->prepare($sql2); 
-    $stmt->bind_param("s", $username);
-    $stmt->execute();
-    $result2 = $stmt->get_result();
-
-    if (mysqli_num_rows($result1)> 0) 
-    {
-     echo
-        $_SESSION['message'] = "An account with this email already exists"; 
-        $_SESSION['msg_type'] = "error";
-        header('location: registration.php');  
-    }
-    elseif (mysqli_num_rows($result2)> 0)
-    {
-      echo
-        $_SESSION['message'] = "An account with this username already exists"; 
-        $_SESSION['msg_type'] = "error";
-        header('location: registration.php');
-    } 
-    else
-    {
-      $sql1="INSERT into admin (username, password, email) VALUES (?, ?, ?)";
-      $stmt = $conn->prepare($sql1); 
-      $stmt->bind_param("sss", $username, $pass, $email);
-      $result1 = $stmt->execute();
-      if($result1)
-      {
-          echo
-              $_SESSION['message'] = "User registered successfully."; 
-              $_SESSION['msg_type'] = "success";
-              header('location: dashboard.php');
-      }
-    }
-  
-}
-    else{
 
 ?>
 
@@ -69,7 +20,7 @@ if (isset($_REQUEST['username'])){
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<title>Register User</title>
+<title>Reset Password</title>
 <style type="text/css">
 html {
      height: 100%;
@@ -111,7 +62,7 @@ html {
     color: white;
     background-color: #04AA6D;
   }
-
+  
  /***********Alerts***********/
  .alert
   {
@@ -128,7 +79,7 @@ html {
      opacity: 0.75;
      width: 0 auto;
      width: 70%;
-     margin: 7rem;
+     margin: 8rem;
  }
 
  h3 {
@@ -144,8 +95,18 @@ html {
      text-align: center;
  }
 
+ p
+ {
+  color: white;
+  margin-bottom: 1em;
+  word-wrap: break-word;
+  text-align: center;
+  margin-left: 25%;
+  margin-right: 25%;
+ }
+
  /***********Input fields***********/
- input[type="submit"] {
+ input[type="button"] {
      border: 1px solid black;
      display: block;
      width: 12em;
@@ -158,7 +119,7 @@ html {
      border-radius: 15px;
  }
 
- input[type="submit"]:hover {
+ input[type="button"]:hover {
      background-color: black;
      color: white;       
      border: 1px solid white;
@@ -175,14 +136,7 @@ html {
      color: white;
  }
 
- input[type="text"]:focus,
- input[type="email"]:focus,
- input[type="password"]:focus {
-     outline: 0;
-     border-color: transparent;
-     border: 1px solid white;
 
- }
 
  ::placeholder {
      color: #d3d3d3;
@@ -197,7 +151,7 @@ html {
 </style>
 </head>
 <body>
-    <!---------Navbar-------->
+  <!---------Navbar-------->
   <ul>
       <li><a href="logout.php">Logout</a></li>
     <li><a href="dashboard.php"><?php echo $_SESSION['username']; ?></a></li>
@@ -213,26 +167,23 @@ html {
   </div>
   <?php endif ?>
     <br>
-  <!-----------Registration Form------------>
+
+  <!-----------Reset Password------------>
+  <br>
 <div style="display:flex; justify-content: center;">
  <div id="container" class="form">
-         <h3>Register</h3>
-         <form name="registration" action="" method="post">
+         <h3>Email Sent</h3>
+         <form name="reset_password" action="" method="post" style="text-align: center;">
             <fieldset>
-               <br/>
-               <input type="text" name="username" id="username" placeholder="Username" required autofocus>
-               <br/><br/>
-               <input type="email" name="email" id="email" placeholder="Email" required>
-               <br/><br/>
-               <input type="password" name="password" id="password" placeholder="Password" required>
-               <br/><br/>
-               <label for="submit"></label>
-               <input type="submit" name="submit" value="Register"/>
+               <br>
+               <p>An email has been sent to <strong><?php echo $emailr ?></strong>. Please check your mailbox for an email to reset your password.</p>
+               <br>
+               <input type="button" name="submit" onclick="location.href='reset_password_req.php';" value="Go Back"/>
                <br><br>
             </fieldset>
          </form>
       </div>
-  <?php }; ?>
+      <a href="reset_password.php" style="color: white;">Test Link</a>
 </div>
 </body>
 </html>

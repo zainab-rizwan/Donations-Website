@@ -25,7 +25,8 @@ if (isset($_POST['username']))
      $_SESSION['msg_type'] = "Error!";
     header('location: login.php');
       }
-}else{
+}
+else{
 ?>
 
 <!DOCTYPE html>
@@ -60,6 +61,8 @@ if (isset($_POST['username']))
        background-size: cover;
 
    }
+
+   
    /***********Login form************/
    #container {
        background-color: black;

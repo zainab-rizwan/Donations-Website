@@ -91,6 +91,13 @@ include("auth.php");
     margin-top: -1em;
    }
 
+   /***********Alert************/
+   .alert-success
+   {
+    background-color: #39C16C ;
+    color: white;
+   }
+
 
 
 </style>
@@ -102,6 +109,17 @@ include("auth.php");
     <li><a href="dashboard.php"><?php echo $_SESSION['username']; ?></a></li>
   </ul>
 
+  <!-----------Alerts-------------->
+  <?php if (isset($_SESSION['message'])): ?>
+  <div class="alert alert-<?=$_SESSION['msg_type']?>" >
+    <?php 
+      echo $_SESSION['message']; 
+      unset($_SESSION['message']);
+    ?>
+  </div>
+  <?php endif ?>
+  <br>
+
   <!---------Main Board-------->
   <div id="container">
     <h3>Admin Access</h3>
@@ -109,6 +127,7 @@ include("auth.php");
         <p><a href="batch_fund.php">Batch Funds</a></p>
         <p><a href="particulars.php">Particulars</a></p>
         <p><a href="registration.php">Register User</a></p>
+        <p><a href="reset_password_req.php">Reset Password</a></p>
   </div>
 
   <!---------Table-------->
@@ -144,12 +163,12 @@ include("auth.php");
                               echo '<td>'. $email .'</td>';
                               echo '</tr>';
                           }
-                      }?>
-                           
+                      }?>                          
                     </tbody>
                   </table>
                 </div>
             </div>
+
         </div>
   </div>
 <br>

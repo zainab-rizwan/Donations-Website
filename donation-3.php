@@ -207,7 +207,7 @@ else
 <!----------Introductory------------>
 <div id="main">
       <div class="form-group">
-          <h3>Here is your payment code:<b><?php echo $inv_id ?></b></h3>
+          <h3>Here is your payment code:<b><?php echo sprintf('%014d', $inv_id); ?></b></h3>
           <hr>
             <p>Thank you for your generous donation to U.E.T. We truly appreciate your commitment. </p>
             <p>To download your donation challan, please <a href="invoice.php" id="create_pdf">click here</a></p>

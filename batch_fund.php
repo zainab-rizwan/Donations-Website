@@ -1,9 +1,7 @@
 <?php
-require_once('db_connection.php');
 include('auth.php');
-?>
+require_once('db_connection.php');
 
-<?php
 //Edit batch fund
 if (isset($_GET['edit'])) 
 {
@@ -145,7 +143,7 @@ if (isset($_GET['edit']))
     {
     	display: flex;
     	background: white;
-    	color: #435d7d;
+    	color: blue;
     	padding-left: 1em;
     }
 
@@ -159,14 +157,14 @@ if (isset($_GET['edit']))
 
 	<!----------------Alerts---------------->
   	<?php if (isset($_SESSION['message'])): ?>
-	<div class="alert alert-<?=$_SESSION['msg_type']?>" >
-		<?php 
-			echo $_SESSION['message']; 
-			unset($_SESSION['message']);
-		?>
-	</div>
+	  <div class="alert alert-<?=$_SESSION['msg_type']?>" >
+	    <?php 
+	      echo($_SESSION['message']);
+	      unset($_SESSION['message']);
+	    ?>
+	  </div>
 	<?php endif ?>
-  	<br>
+    <br>
 
   	<!----------------Table---------------->
     <div class="container">

@@ -1,6 +1,6 @@
 <?php
-session_start();
-include 'db_connection.php';
+include('auth.php');
+require_once('db_connection.php');
 
 //Create new batch fund
 if (isset($_POST['create'])) {
@@ -15,9 +15,9 @@ if (isset($_POST['create'])) {
 	$result1 = $stmt->get_result();
 
 	if ($conn->query($result1) === TRUE) {
-	    $_SESSION['message'] = "Batch fund created!"; 
-	    $_SESSION['msg_type'] = "Success!"; 
-	    $last_id = $conn->insert_id;  
+		$last_id = $conn->insert_id;
+		$_SESSION['message'] = 'Batch Fund created!';
+	    $_SESSION['msg_type'] = "Success!";   
 	    header('location: batch_fund.php');
 	    exit();
 
@@ -66,7 +66,7 @@ $stmt->bind_param("i", $id);
 $stmt->execute();
 $result3 = $stmt->get_result();
 
-if ($conn->query($result3) === TRUE) {
+if ($result3) {
 	    $_SESSION['message'] = "Batch fund deleted!"; 
 	    $_SESSION['msg_type'] = "Success!"; 
 	    header('location: batch_fund.php');
