@@ -1,12 +1,11 @@
 <?php
 session_start();
-if(session_destroy())
-//Redirect to login
-{
-	$_SESSION['message'] = "You've been logged out."; 
-	$_SESSION['msg_type'] = "Success";
-	header("Location: login.php");
-}
+session_unset();
+session_destroy();
+
+echo "<script>alert('The profile has been deleted.');</script>";
+header("location: login.php");
+exit();
 ?>
 
 

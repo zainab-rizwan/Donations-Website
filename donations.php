@@ -15,7 +15,7 @@ include("auth.php");
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<title>Dashboard</title>
+<title>Donation Records</title>
 <style type="text/css">
    html {
        height: 100%;
@@ -58,9 +58,9 @@ include("auth.php");
        padding: 3em;
        opacity: 0.7;
        width: 0 auto;
-       margin: 10%;
-       margin-bottom: 5%;
-       margin-top: 5%;
+       margin: 9.6%;
+       margin-bottom: 1%;
+       margin-top: 1%;
        text-align: center;
    }
 
@@ -87,8 +87,8 @@ include("auth.php");
    /******************Table******************/
    .container
    {
-    padding:5%;
-    margin-top: -1em;
+    padding-left:5.5rem;
+    padding-right:5.5rem;
    }
 
    /***********Alert************/
@@ -109,6 +109,7 @@ include("auth.php");
     <li><a href="dashboard.php"><?php echo $_SESSION['username']; ?></a></li>
   </ul>
 
+
   <!-----------Alerts-------------->
   <?php if (isset($_SESSION['message'])): ?>
   <div class="alert alert-<?=$_SESSION['msg_type']?>" >
@@ -122,17 +123,12 @@ include("auth.php");
 
   <!---------Main Board-------->
   <div id="container">
-    <h3>Admin Access</h3>
-        <p>Welcome <?php echo $_SESSION['username']; ?>!</p>
-        <p><a href="donations.php">Donation Records</a></p>
-        <p><a href="batch_fund.php">Batch Funds</a></p>
-        <p><a href="particulars.php">Particulars</a></p>
-        <p><a href="registration.php">Register a user</a></p>
-        <p><a href="reset_password_req.php">Reset Password</a></p>
+    <h3>Donation Records</h3>
   </div>
 
+  <br>
+
   <!---------Table-------->
-  <h3 style="color: black;">Registered Users</h3>
   <div class="container">
         <div class="table-wrapper">
             <div class="table-title">
@@ -140,28 +136,76 @@ include("auth.php");
                   <table class="table table-hover table-bordered" style="text-align: center;">
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Username</th>
+                            <th>#</th>
+                            <th>Donor ID</th>
+                            <th>Donor</th>
                             <th>Email</th>
+                            <th>Affiliation</th>
+                            <th>Invoice ID</th>
+                            <th>Currency</th>
+                            <th>Payment method</th>
+                            <th>Date of invoice</th>
+                            <th>Status</th>
+                            <th>Date of payment</th>
+                            <th>Amount</th>
                         </tr>
                     </thead>
                     <tbody>
                       <?php
-                      $sql="SELECT id, username, email FROM admin ORDER BY id";
+                      $sql="SELECT * FROM users AS U INNER JOIN invoice AS I on U.user_id= I.user_id INNER JOIN (SELECT invoice_id, SUM(Amount) as total FROM invoice_particulars GROUP BY invoice_id) AS IP on I.id= IP.invoice_id";
                       $stmt = $conn->prepare($sql);
                       $stmt->execute();
                       $result = $stmt->get_result();
                       if(mysqli_num_rows($result) > 0){
-
+                          $id=0;
                           while ($row = mysqli_fetch_assoc($result)) 
                           {
-                            $id=$row['id'];
-                            $name=$row['username'];
+                            $id=$id+1;
+                            $donor_id=$row['user_id'];
+                            $title=$row['title'];
+                            $fname=$row['fname'];
+                            $lname=$row['lname'];
+                            $affiliation=$row['affiliation'];
                             $email=$row['email'];
+                            $invoice_id=$row['id'];
+                            $currency=$row['currency'];
+                            $payment_method=$row['payment_method'];
+                            $dateofinvoice=$row['dateofinvoice'];
+                            $status=$row['status'];  
+                            $stat='';  
+                            if($status == 0)
+                            {
+                              $stat='Unpaid';
+                            }                 
+                            else
+                            {
+                              $stat='Paid';
+                            }     
+                            $dateofpayment=$row['dateofpayment']; 
+                            $dop=''; 
+                            if($dateofpayment==0)
+                            {
+                              $dop='-';
+                            } 
+                            else  
+                            {
+                              $dop=$dateofpayment;
+                            }
+                            $amount=$row['total'];
+
                               echo '<tr>';
                               echo '<td>'. $id .'</td>';
-                              echo '<td>'. $name .'</td>';
+                              echo '<td>'. $donor_id .'</td>';
+                              echo '<td>'. $title.''.$fname.''.$lname.'</td>';
                               echo '<td>'. $email .'</td>';
+                              echo '<td>'. $affiliation .'</td>';
+                              echo '<td>'. $invoice_id .'</td>';
+                              echo '<td>'. $currency .'</td>';
+                              echo '<td>'. $payment_method .'</td>';
+                              echo '<td>'. $dateofinvoice .'</td>';
+                              echo '<td>'. $stat .'</td>';
+                              echo '<td>'. $dop .'</td>';
+                              echo '<td>'. $amount .'</td>';
                               echo '</tr>';
                           }
                       }?>                          

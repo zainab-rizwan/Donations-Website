@@ -372,7 +372,7 @@ else
   <div>
 
   <!-----------Select Payment method----------->
-  <form  action="donation-3.php" method="post">
+  <form  action="data.php" method="post">
      <div class="form-group">
              <h3>Choose Your Payment Type</h3>
               <div id="pay-types">

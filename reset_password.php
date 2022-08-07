@@ -139,8 +139,6 @@ html {
   <br>
 
 <?php
-
-
 if (isset($_GET["token"]) && isset($_GET["emailr"]) && isset($_GET["action"]) 
 && ($_GET["action"]=="reset") && !isset($_POST["action"]))
 {
@@ -220,11 +218,13 @@ if(isset($_POST["emailr"]) && isset($_POST["action"]) && ($_POST["action"]=="upd
   else
   {
     $new_pass = md5($new_pass);
+    //update password
     $query = "UPDATE admin SET password=? WHERE email=?";
     $stmt = $conn->prepare($query); 
     $stmt->bind_param("ss",$new_pass, $emailr);
     $stmt->execute();
 
+    //delete entry from temporary table
     $query2 = "DELETE FROM password_reset WHERE email=?";
     $stmt = $conn->prepare($query2); 
     $stmt->bind_param("s", $emailr);
